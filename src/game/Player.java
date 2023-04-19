@@ -30,20 +30,20 @@ public class Player extends ImageView {
 		return posX;
 	}
 
-	public void setPosX(int posX) {
+	public void setPosX(double posX) {
 		if(posX < 0) this.posX = 0;
 		else { if(posX >= Config.SCREEN_WIDTH-Config.PLAYER_WIDTH) this.posX = Config.SCREEN_WIDTH-Config.PLAYER_WIDTH;
-		else this.posX = posX;}
+		else this.posX = (int)(posX);}
 	}
 
 	public int getPosY() {
 		return posY;
 	}
 
-	public void setPosY(int posY) {
+	public void setPosY(double posY) {
 		if(posY < 0) this.posY = 0;
 		else { if(posY >= Config.SCREEN_HEIGHT-Config.PLAYER_HEIGHT) this.posY = Config.SCREEN_HEIGHT-Config.PLAYER_HEIGHT;
-		else this.posY = posY;}
+		else this.posY = (int)(posY);}
 	}
 
 	public boolean isMovingUp() {
