@@ -18,6 +18,16 @@ public class GameCore {
 		player.setPosY(player.getPosY() + speed*player.getMovementY());
 		updatePlayerPos(player);
 		
+		player.draw();
+		
+		player.setEntityCounter(player.getEntityCounter()+1);
+		if(player.getEntityCounter() >= 20) {
+			player.changeEntityAnimation();
+			player.setEntityCounter(0);
+		}
+		
+		
+		
 		speed = Config.DEFAULT_ENEMY_SPEED;
 		for(Enemy enemy: Main.getEnemies()) {
 			float dx = player.getPosX() - enemy.getPosX();
@@ -29,6 +39,7 @@ public class GameCore {
 				updateEnemyPos(enemy);
 			}
 		}
+		//break;
 		//updateAllPos();
 	}
 

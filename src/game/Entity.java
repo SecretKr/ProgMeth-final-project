@@ -11,7 +11,12 @@ public abstract class Entity extends ImageView {
 	private float movementX;
 	private float movementY;
 	private boolean alive;
-
+	private int entityNum=0;
+	private int entityCounter=0;
+	private String direction;
+	
+	
+	
 	public Entity(Image image2) {
 		super(image2);
 	}
@@ -68,4 +73,33 @@ public abstract class Entity extends ImageView {
 		this.movementX = x;
 		this.movementY = y;
 	}
+	
+	public void changeEntityAnimation() {
+		this.setEntityNum((entityNum+1)%2);
+	}
+	
+	public int getEntityNum() {
+		return entityNum;
+	}
+	
+	public void setEntityNum(int entityNum) {
+		this.entityNum = entityNum;
+	}
+
+	public int getEntityCounter() {
+		return entityCounter;
+	}
+
+	public void setEntityCounter(int entityCount) {
+		this.entityCounter = entityCount;
+	}
+
+	public String getDirection() {
+		return direction;
+	}
+
+	public void setDirection(String direction) {
+		this.direction = direction;
+	}
+	
 }

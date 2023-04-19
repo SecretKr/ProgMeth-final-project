@@ -57,15 +57,28 @@ public class Main extends Application {
 	        	float movementX = player.getMovementX();
 	        	float movementY = player.getMovementY();
 	        	
-	        	if(kc == KeyCode.A) movementX = -1;
-	        	if(kc == KeyCode.D) movementX = 1;
-	        	if(kc == KeyCode.W) movementY = -1;
-	        	if(kc == KeyCode.S) movementY = 1;
+	        	if(kc == KeyCode.A) {
+	        		movementX = -1;
+	        		player.setDirection("left");
+	        	}
+	        	if(kc == KeyCode.D) {
+	        		movementX = 1;
+	        		player.setDirection("right");
+	        	}
+	        	if(kc == KeyCode.W) {
+	        		movementY = -1;
+	        		player.setDirection("up");
+	        	}
+	        	if(kc == KeyCode.S) {
+	        		movementY = 1;
+	        		player.setDirection("down");
+	        	}
 	        	
 	        	if(movementX != 0 && movementY != 0) {
 	        		movementX *= 0.707f;
 	        		movementY *= 0.707f;
 	        	}
+	        	
 	        	player.setMovement(movementX, movementY);
 	        }
 	    });
