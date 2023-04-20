@@ -24,6 +24,9 @@ public class GameCore {
 			player.changeEntityAnimation();
 			player.setEntityCounter(0);
 		}
+		if(player.getHp() <= 0) {
+			//restart
+		}
 		
 		speed = Config.DEFAULT_ENEMY_SPEED;
 		for(Enemy enemy: Main.getEnemies()) {
@@ -34,6 +37,9 @@ public class GameCore {
 				enemy.setPosX(enemy.getPosX() + speed*(dx/(sum)));
 				enemy.setPosY(enemy.getPosY() + speed*(dy/(sum)));
 				enemy.updatePos();
+			}
+			if(enemy.getHp() <= 0) {
+				Main.getEnemies().remove(enemy);
 			}
 		}
 		//break;

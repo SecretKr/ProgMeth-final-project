@@ -14,6 +14,7 @@ public abstract class Entity extends ImageView {
 	private int entityNum=0;
 	private int entityCounter=0;
 	private String direction;
+	private int Hp;
 	
 	
 	
@@ -100,6 +101,14 @@ public abstract class Entity extends ImageView {
 
 	public void setDirection(String direction) {
 		this.direction = direction;
+	}
+
+	public int getHp() {
+		return Hp;
+	}
+
+	public void setHp(int hp) {
+		Hp = hp;
 	}
 	
 }

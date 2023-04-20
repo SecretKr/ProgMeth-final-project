@@ -10,6 +10,7 @@ public class Enemy extends Entity {
 		setPosX((Config.SCREEN_WIDTH-30)/2);
 		setPosY((Config.SCREEN_HEIGHT-30)/2);
 		setAlive(true);
+		setHp(1);
 	}
 
 }

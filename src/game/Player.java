@@ -10,6 +10,7 @@ public class Player extends Entity {
 		setPosX((Config.SCREEN_WIDTH-Config.PLAYER_WIDTH)/2);
 		setPosY((Config.SCREEN_HEIGHT-Config.PLAYER_HEIGHT)/2);
 		setAlive(true);
+		setHp(100);
 	}
 	
 	
