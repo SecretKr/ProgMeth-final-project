@@ -11,5 +11,11 @@ public class Enemy extends Entity {
 		setPosY((Config.SCREEN_HEIGHT-30)/2);
 		setAlive(true);
 	}
+	
+	public void draw() {
+		//System.out.println("count:"+this.getEntityCounter());
+		Image image = new Image("Assets/alien.png", 30, 30, false, false);
+		this.setImage(image);
+	}
 
 }

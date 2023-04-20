@@ -37,8 +37,10 @@ public class GameCore {
 				enemy.setPosX(enemy.getPosX() + speed*(dx/(sum)));
 				enemy.setPosY(enemy.getPosY() + speed*(dy/(sum)));
 				updateEnemyPos(enemy);
+				enemy.draw();
 			}
 		}
+
 		//break;
 		//updateAllPos();
 	}
