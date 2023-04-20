@@ -57,27 +57,30 @@ public class Main extends Application {
 	        	float movementX = player.getMovementX();
 	        	float movementY = player.getMovementY();
 	        	
-	        	if(kc == KeyCode.A) {
+	        	if(kc == KeyCode.A && movementX >= 0) {
 	        		movementX = -1;
 	        		player.setDirection("left");
 	        	}
-	        	if(kc == KeyCode.D) {
+	        	if(kc == KeyCode.D && movementX <= 0) {
 	        		movementX = 1;
 	        		player.setDirection("right");
 	        	}
-	        	if(kc == KeyCode.W) {
+	        	if(kc == KeyCode.W && movementY >= 0) {
 	        		movementY = -1;
 	        		player.setDirection("up");
 	        	}
-	        	if(kc == KeyCode.S) {
+	        	if(kc == KeyCode.S && movementY <= 0) {
 	        		movementY = 1;
 	        		player.setDirection("down");
 	        	}
-	        	
 	        	if(movementX != 0 && movementY != 0) {
-	        		movementX *= 0.707f;
-	        		movementY *= 0.707f;
+	        		if(Math.abs(movementX) == 1) movementX *= 0.707f;
+	        		if(Math.abs(movementY) == 1) movementY *= 0.707f;
 	        	}
+//
+//	    		System.out.print(movementX);
+//	    		System.out.print(" ");
+//	    		System.out.println(movementY);
 	        	
 	        	player.setMovement(movementX, movementY);
 	        }
@@ -109,9 +112,7 @@ public class Main extends Application {
 	}
 
 	public static void addEnemy(){
-		System.out.println("add enemy");
 		enemies.add(new Enemy());
-		System.out.println("added");
 		pane.getChildren().add(enemies.get(enemies.size()-1));
 	}
 	

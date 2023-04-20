@@ -16,8 +16,7 @@ public class GameCore {
 		float speed = Config.DEFAULT_PLAYER_SPEED;
 		player.setPosX(player.getPosX() + speed*player.getMovementX());
 		player.setPosY(player.getPosY() + speed*player.getMovementY());
-		updatePlayerPos(player);
-		
+		player.updatePos();
 		player.draw();
 		
 		player.setEntityCounter(player.getEntityCounter()+1);
@@ -26,17 +25,15 @@ public class GameCore {
 			player.setEntityCounter(0);
 		}
 		
-		
-		
 		speed = Config.DEFAULT_ENEMY_SPEED;
 		for(Enemy enemy: Main.getEnemies()) {
 			float dx = player.getPosX() - enemy.getPosX();
 			float dy = player.getPosY() - enemy.getPosY();
 			float sum = Math.abs(dx) + Math.abs(dy);
-			if(dx > 25 || dy > 25 ) {
+			if(Math.abs(dx) > 25 || Math.abs(dy) > 25 ) {
 				enemy.setPosX(enemy.getPosX() + speed*(dx/(sum)));
 				enemy.setPosY(enemy.getPosY() + speed*(dy/(sum)));
-				updateEnemyPos(enemy);
+				enemy.updatePos();
 			}
 		}
 		//break;
@@ -49,7 +46,7 @@ public class GameCore {
 			while (true) {
 				Thread.sleep(Config.DELAY_BETWEEN_FRAME);
 				this.gameLoop();
-				if(counter%1000 == 0) {
+				if(counter%200 == 0) {
 					addEnemy();
 				}
 				counter += 1;
@@ -57,34 +54,6 @@ public class GameCore {
 		} catch (Exception e) {
 		}
 	}
-	private static void updatePlayerPos(Player player) {
-		Platform.runLater(new Runnable(){
-			@Override
-			public void run() {
-				player.updatePos();
-			}
-		});
-	}
-	private static void updateEnemyPos(Enemy enemy) {
-		Platform.runLater(new Runnable(){
-			@Override
-			public void run() {
-				enemy.updatePos();
-			}
-		});
-	}
-	
-//	private static void updateAllPos() {
-//		Platform.runLater(new Runnable(){
-//			@Override
-//			public void run() {
-//				Main.getPlayer().updatePos();
-//				for(Enemy enemy: Main.getEnemies()) {
-//					enemy.updatePos();
-//				}
-//			}
-//		});
-//	}
 	
 	private static void addEnemy() {
 		Platform.runLater(new Runnable(){

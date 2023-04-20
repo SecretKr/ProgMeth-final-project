@@ -22,7 +22,7 @@ public abstract class Entity extends ImageView {
 	}
 	
 	public void updatePos() {
-		super.relocate((int)posX, (int)posY);
+		super.relocate(posX, posY);
 	}
 	
 	public boolean getAlive() {
