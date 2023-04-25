@@ -122,7 +122,7 @@ public class Main extends Application {
 	
 	public static void removeEnemy(Enemy enemy) {
 		enemies.remove(enemy);
-		//pane.getChildren().remove(enemy);
+		pane.getChildren().remove(enemy);
 	}
 	
 	public static void clearEnemy() {
@@ -138,7 +138,7 @@ public class Main extends Application {
 	
 	public static void removeItem(Item item) {
 		items.remove(item);
-		//pane.getChildren().remove(enemy);
+		pane.getChildren().remove(item);
 	}
 	
 	public static ArrayList<Enemy> getEnemies(){

@@ -39,7 +39,7 @@ public class GameCore {
 				b = item;
 			}
 		}
-		if(Main.getItems().contains(b)) Main.removeItem(b);
+		if(Main.getItems().contains(b)) removeItemLater(b);
 		
 		speed = Config.DEFAULT_ENEMY_SPEED;
 		for(Enemy enemy: Main.getEnemies()) {
@@ -69,7 +69,7 @@ public class GameCore {
 		
 			
 		}
-		if(Main.getEnemies().contains(a)) Main.removeEnemy(a); // remove
+		if(Main.getEnemies().contains(a)) removeEnemyLater(a); // remove
 		//break;
 		//updateAllPos();
 	}
@@ -95,6 +95,26 @@ public class GameCore {
 			}
 		} catch (Exception e) {
 		}
+	}
+	
+	public void removeItemLater(Item b) {
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				Main.removeItem(b);
+			}
+		});
+	}
+	
+	public void removeEnemyLater(Enemy a) {
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				Main.removeEnemy(a);
+			}
+		});
 	}
 
 	private static void addEnemy() {
