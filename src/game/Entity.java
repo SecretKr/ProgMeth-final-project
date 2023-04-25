@@ -14,7 +14,10 @@ public abstract class Entity extends ImageView {
 	private int entityNum=0;
 	private int entityCounter=0;
 	private String direction;
-	private int Hp;
+	private int hP;
+	private int width;
+	private int height;
+	private int hitDamage;
 	
 	
 	
@@ -32,6 +35,19 @@ public abstract class Entity extends ImageView {
 	
 	public void setAlive(boolean alive) {
 		this.alive = alive;
+	}
+	
+	public float getLeftX() {
+		return (this.getPosX()-(this.getWidth()/2));
+	}
+	public float getTopY() {
+		return (this.getPosY()-(this.getHeight()/2));
+	}
+	public float getRightX() {
+		return (this.getPosX()+(this.getWidth()/2));
+	}
+	public float getBottomY() {
+		return (this.getPosY()+(this.getHeight()/2));
 	}
 	
 	public float getPosX() {
@@ -103,12 +119,37 @@ public abstract class Entity extends ImageView {
 		this.direction = direction;
 	}
 
-	public int getHp() {
-		return Hp;
+	public int getHP() {
+		return hP;
 	}
 
-	public void setHp(int hp) {
-		Hp = hp;
+	public void setHP(int hP) {
+		if(hP <= 0) this.hP = 0;
+		else this.hP = hP;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public int getHitDamage() {
+		return hitDamage;
+	}
+
+	public void setHitDamage(int hitDamage) {
+		this.hitDamage = hitDamage;
 	}
 	
 }

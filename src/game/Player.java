@@ -10,9 +10,46 @@ public class Player extends Entity {
 		setPosX((Config.SCREEN_WIDTH-Config.PLAYER_WIDTH)/2);
 		setPosY((Config.SCREEN_HEIGHT-Config.PLAYER_HEIGHT)/2);
 		setAlive(true);
-		setHp(100);
+		setHP(100);
+		setWidth(Config.PLAYER_WIDTH);
+		setHeight(Config.PLAYER_HEIGHT);
+		setHitDamage(10);
 	}
 	
+	public boolean isCollide(Entity enemy) {
+
+		float pLeftX = this.getLeftX();
+		float eLeftX = enemy.getLeftX();
+		float pRightX = this.getRightX();
+		float eRightX = enemy.getRightX();
+		float pTopY = this.getTopY();
+		float eTopY = enemy.getTopY();
+		float pBottomY = this.getBottomY();
+		float eBottomY = enemy.getBottomY();
+		
+		if((pLeftX <= eRightX && pLeftX >= eLeftX) && (pTopY >= eTopY && pTopY <= eBottomY) // check if top left corner of player in enemy area
+				|| (eLeftX <= pRightX && eLeftX >= pLeftX) && (eTopY >= pTopY && eTopY <= pBottomY)) { //check if top left corner of enemy in player area
+			return true;
+		}
+		
+		if((pRightX <= eRightX && pRightX >= eLeftX) && (pTopY >= eTopY && pTopY <= eBottomY) // check if top right corner of player in enemy area
+				|| (eRightX <= pRightX && eRightX >= pLeftX) && (eTopY >= pTopY && eTopY <= pBottomY)) { //check if top right corner of enemy in player area
+			return true;
+		}
+		
+		if((pLeftX <= eRightX && pLeftX >= eLeftX) && (pBottomY >= eTopY && pBottomY <= eBottomY) // check if bottom left corner of player in enemy area
+				|| (eLeftX <= pRightX && eLeftX >= pLeftX) && (eBottomY >= pTopY && eBottomY <= pBottomY)) { //check if bottom left corner of enemy in player area
+			return true;
+		}
+		
+		if((pRightX <= eRightX && pRightX >= eLeftX) && (pBottomY >= eTopY && pBottomY <= eBottomY) // check if bottom right corner of player in enemy area
+				|| (eRightX <= pRightX && eRightX >= pLeftX) && (eBottomY >= pTopY && eBottomY <= pBottomY)) { //check if bottom right corner of enemy in player area
+			return true;
+		}
+		
+		return false;
+		
+	}
 	
 	public void draw() {
 		//System.out.println("count:"+this.getEntityCounter());

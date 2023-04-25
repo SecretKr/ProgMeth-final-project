@@ -116,6 +116,11 @@ public class Main extends Application {
 		pane.getChildren().add(enemies.get(enemies.size()-1));
 	}
 	
+	public static void removeEnemy(Enemy enemy) {
+		enemies.remove(enemy);
+		//pane.getChildren().remove(enemy);
+	}
+	
 	public static ArrayList<Enemy> getEnemies(){
 		return enemies;
 	}

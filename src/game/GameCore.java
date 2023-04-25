@@ -14,6 +14,7 @@ public class GameCore {
 
 	public void gameLoop() {
 		float speed = Config.DEFAULT_PLAYER_SPEED;
+		Enemy a = null;
 		player.setPosX(player.getPosX() + speed*player.getMovementX());
 		player.setPosY(player.getPosY() + speed*player.getMovementY());
 		player.updatePos();
@@ -24,7 +25,7 @@ public class GameCore {
 			player.changeEntityAnimation();
 			player.setEntityCounter(0);
 		}
-		if(player.getHp() <= 0) {
+		if(player.getHP() <= 0) {
 			//restart
 		}
 		
@@ -37,11 +38,26 @@ public class GameCore {
 				enemy.setPosX(enemy.getPosX() + speed*(dx/(sum)));
 				enemy.setPosY(enemy.getPosY() + speed*(dy/(sum)));
 				enemy.updatePos();
+				
 			}
-			if(enemy.getHp() <= 0) {
-				Main.getEnemies().remove(enemy);
+			
+			if(player.isCollide(enemy)) {
+				System.out.println("HIT!!");
+				enemy.setHP(enemy.getHP()-1); 
+				player.setHP(player.getHP()-enemy.getHitDamage()); // both enemy and player take damage
 			}
+			
+			if(enemy.getHP() <= 0) {
+				//System.out.println("HIT!!");
+				//Main.getEnemies().remove(enemy);
+				//Main.getEnemies().clear();
+				a = enemy; // store which enemy has to be remove to remove after list iteration
+			}
+			
+		
+			
 		}
+		if(Main.getEnemies().contains(a)) Main.removeEnemy(a); // remove
 		//break;
 		//updateAllPos();
 	}
