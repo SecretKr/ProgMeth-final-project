@@ -3,6 +3,8 @@ package game;
 import java.util.ArrayList;
 
 import config.Config;
+import items.Bomb;
+import items.Item;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -24,6 +26,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 	private static ArrayList<Enemy> enemies;
+	private static ArrayList<Item> items;
 	private static Pane pane;
 	private static Player player;
 	
@@ -32,10 +35,11 @@ public class Main extends Application {
 		//Group root = new Group();
 		pane = new Pane();
 		enemies = new ArrayList<Enemy>();
+		items = new ArrayList<Item>();
 		player = new Player();
 		pane.getChildren().add(player);
 		
-		addEnemy();
+		//addEnemy();
 		
 		Scene scene = new Scene(pane, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
 		movePlayer(scene, player);
@@ -121,6 +125,22 @@ public class Main extends Application {
 		//pane.getChildren().remove(enemy);
 	}
 	
+	public static void clearEnemy() {
+		enemies.clear();
+		//pane.getChildren().clear();
+		
+	}
+	
+	public static void addBomb(float posX, float posY) {
+		items.add(new Bomb(posX, posY));
+		pane.getChildren().add(items.get(items.size()-1));
+	}
+	
+	public static void removeItem(Item item) {
+		items.remove(item);
+		//pane.getChildren().remove(enemy);
+	}
+	
 	public static ArrayList<Enemy> getEnemies(){
 		return enemies;
 	}
@@ -131,6 +151,10 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
+	}
+
+	public static ArrayList<Item> getItems() {
+		return items;
 	}
 
 }

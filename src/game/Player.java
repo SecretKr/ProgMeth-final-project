@@ -1,6 +1,7 @@
 package game;
 
 import config.Config;
+import items.Item;
 import javafx.scene.image.Image;
 
 public class Player extends Entity {
@@ -16,7 +17,7 @@ public class Player extends Entity {
 		setHitDamage(10);
 	}
 	
-	public boolean isCollide(Entity enemy) {
+	public boolean isCollideEntity(Entity enemy) {
 
 		float pLeftX = this.getLeftX();
 		float eLeftX = enemy.getLeftX();
@@ -44,6 +45,41 @@ public class Player extends Entity {
 		
 		if((pRightX <= eRightX && pRightX >= eLeftX) && (pBottomY >= eTopY && pBottomY <= eBottomY) // check if bottom right corner of player in enemy area
 				|| (eRightX <= pRightX && eRightX >= pLeftX) && (eBottomY >= pTopY && eBottomY <= pBottomY)) { //check if bottom right corner of enemy in player area
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
+	public boolean isCollideItem(Item item) {
+
+		float pLeftX = this.getLeftX();
+		float iLeftX = item.getLeftX();
+		float pRightX = this.getRightX();
+		float iRightX = item.getRightX();
+		float pTopY = this.getTopY();
+		float iTopY = item.getTopY();
+		float pBottomY = this.getBottomY();
+		float iBottomY = item.getBottomY();
+		
+		if((pLeftX <= iRightX && pLeftX >= iLeftX) && (pTopY >= iTopY && pTopY <= iBottomY) // check if top left corner of player in enemy area
+				|| (iLeftX <= pRightX && iLeftX >= pLeftX) && (iTopY >= pTopY && iTopY <= pBottomY)) { //check if top left corner of enemy in player area
+			return true;
+		}
+		
+		if((pRightX <= iRightX && pRightX >= iLeftX) && (pTopY >= iTopY && pTopY <= iBottomY) // check if top right corner of player in enemy area
+				|| (iRightX <= pRightX && iRightX >= pLeftX) && (iTopY >= pTopY && iTopY <= pBottomY)) { //check if top right corner of enemy in player area
+			return true;
+		}
+		
+		if((pLeftX <= iRightX && pLeftX >= iLeftX) && (pBottomY >= iTopY && pBottomY <= iBottomY) // check if bottom left corner of player in enemy area
+				|| (iLeftX <= pRightX && iLeftX >= pLeftX) && (iBottomY >= pTopY && iBottomY <= pBottomY)) { //check if bottom left corner of enemy in player area
+			return true;
+		}
+		
+		if((pRightX <= iRightX && pRightX >= iLeftX) && (pBottomY >= iTopY && pBottomY <= iBottomY) // check if bottom right corner of player in enemy area
+				|| (iRightX <= pRightX && iRightX >= pLeftX) && (iBottomY >= pTopY && iBottomY <= pBottomY)) { //check if bottom right corner of enemy in player area
 			return true;
 		}
 		
