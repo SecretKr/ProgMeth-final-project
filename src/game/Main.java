@@ -8,6 +8,7 @@ import items.Item;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -127,8 +128,12 @@ public class Main extends Application {
 	
 	public static void clearEnemy() {
 		enemies.clear();
-		//pane.getChildren().clear();
-		
+		ArrayList<Object> entityList = new ArrayList<>(pane.getChildren());
+		for(Object i: entityList) {
+			if(i.getClass().equals(Enemy.class)) {
+				pane.getChildren().remove(i);
+			}
+		}
 	}
 	
 	public static void addBomb(float posX, float posY) {

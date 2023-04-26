@@ -35,7 +35,7 @@ public class GameCore {
 		
 		for(Item item: Main.getItems()) {
 			if(player.isCollideItem(item)) {
-				item.useItem();
+				useItemLater(item);
 				b = item;
 			}
 		}
@@ -113,6 +113,16 @@ public class GameCore {
 			public void run() {
 				// TODO Auto-generated method stub
 				Main.removeEnemy(a);
+			}
+		});
+	}
+	
+	public void useItemLater(Item item) {
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				item.useItem();
 			}
 		});
 	}

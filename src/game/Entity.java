@@ -26,6 +26,7 @@ public abstract class Entity extends ImageView {
 	}
 	
 	public void updatePos() {
+		//System.out.println("update");
 		super.relocate(posX, posY);
 	}
 	
