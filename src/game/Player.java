@@ -139,6 +139,12 @@ public class Player extends Entity {
 		this.setWeapons(tempWeapons);
 	}
 	
+	public void removeWeapon(BaseWeapon weapon) {
+		ArrayList<BaseWeapon> tempWeapons = this.getWeapons();
+		tempWeapons.remove(weapon);
+		this.setWeapons(tempWeapons);
+	}
+	
 	public ArrayList<BaseWeapon> getWeapons(){
 		return weapons;
 	}

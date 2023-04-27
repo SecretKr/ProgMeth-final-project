@@ -24,6 +24,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import weapon.rock.BaseRock;
 import weapon.rock.RockLevelOne;
 
 public class Main extends Application {
@@ -145,6 +146,14 @@ public class Main extends Application {
 	public static void addRockLevelOne(float posX, float posY) {
 		player.addWeapon(new RockLevelOne(posX, posY));
 		pane.getChildren().add(player.getWeapons().get(player.getWeapons().size()-1));
+	}
+	
+	public static void resetRock(BaseRock rock, float posX, float posY) {
+		player.removeWeapon(rock);
+		pane.getChildren().remove(rock);
+		rock.changePositionTo(posX, posY);
+		player.addWeapon(rock);
+		pane.getChildren().add(rock);
 	}
 
 	public static void removeItem(Item item) {

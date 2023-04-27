@@ -92,7 +92,8 @@ public class GameCore {
 			for(BaseWeapon weapon:player.getWeapons()) {
 				weapon.changePosition(nearestEnemy);
 				if(weapon.isCollideEntity(nearestEnemy)) {
-					nearestEnemy.setHP(nearestEnemy.getHP()-weapon.getDamage()); 
+					nearestEnemy.setHP(nearestEnemy.getHP()-weapon.getDamage());
+					resetRockLater((BaseRock) weapon, player.getPosX(), player.getPosY());
 				}
 			}
 			if(nearestEnemy.getHP() <= 0) {
@@ -111,7 +112,7 @@ public class GameCore {
 			while (true) {
 				Thread.sleep(Config.DELAY_BETWEEN_FRAME);
 				this.gameLoop();
-				if(counter%10 == 0) {
+				if(counter%50 == 0) {
 					float randomPosX = (float) Math.floor(Math.random() * (Config.SCREEN_WIDTH - 0 + 1) + 0);
 					float randomPosY = (float) Math.floor(Math.random() * (Config.SCREEN_HEIGHT - 0 + 1) + 0);
 					addEnemy(randomPosX, randomPosY, 1);
@@ -173,6 +174,15 @@ public class GameCore {
 			@Override
 			public void run() {
 				Main.addRockLevelOne(posX, posY);
+			}
+		});
+	}
+	
+	private static void resetRockLater(BaseRock rock, float posX, float posY) {
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				Main.resetRock(rock ,posX, posY);
 			}
 		});
 	}
