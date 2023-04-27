@@ -24,8 +24,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import weapon.homing.BaseHoming;
+import weapon.homing.HomingLevelOne;
+import weapon.homing.HomingLevelThree;
+import weapon.homing.HomingLevelTwo;
 import weapon.rock.BaseRock;
 import weapon.rock.RockLevelOne;
+import weapon.rock.RockLevelThree;
+import weapon.rock.RockLevelTwo;
 
 public class Main extends Application {
 	private static ArrayList<Enemy> enemies;
@@ -143,8 +149,16 @@ public class Main extends Application {
 		pane.getChildren().add(items.get(items.size()-1));
 	}
 	
-	public static void addRockLevelOne(float posX, float posY) {
-		player.addWeapon(new RockLevelOne(posX, posY));
+	public static void addRock(int level, float posX, float posY) {
+		if(level == 1) {
+			player.addWeapon(new RockLevelOne(posX, posY));
+		}
+		if(level == 2) {
+			player.addWeapon(new RockLevelTwo(posX, posY));
+		}
+		if(level == 3) {
+			player.addWeapon(new RockLevelThree(posX, posY));
+		}
 		pane.getChildren().add(player.getWeapons().get(player.getWeapons().size()-1));
 	}
 	
@@ -154,6 +168,27 @@ public class Main extends Application {
 		rock.changePositionTo(posX, posY);
 		player.addWeapon(rock);
 		pane.getChildren().add(rock);
+	}
+	
+	public static void addHoming(int level, float posX, float posY) {
+		if(level == 1) {
+			player.addWeapon(new HomingLevelOne(posX, posY));
+		}
+		if(level == 2) {
+			player.addWeapon(new HomingLevelTwo(posX, posY));
+		}
+		if(level == 3) {
+			player.addWeapon(new HomingLevelThree(posX, posY));
+		}
+		pane.getChildren().add(player.getWeapons().get(player.getWeapons().size()-1));
+	}
+	
+	public static void resetHoming(BaseHoming homing, float posX, float posY) {
+		player.removeWeapon(homing);
+		pane.getChildren().remove(homing);
+		homing.changePositionTo(posX, posY);
+		player.addWeapon(homing);
+		pane.getChildren().add(homing);
 	}
 
 	public static void removeItem(Item item) {

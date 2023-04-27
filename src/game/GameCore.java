@@ -6,6 +6,7 @@ import config.Config;
 import item.Item;
 import javafx.application.Platform;
 import weapon.BaseWeapon;
+import weapon.homing.BaseHoming;
 import weapon.rock.BaseRock;
 import weapon.rock.RockLevelOne;
 
@@ -33,7 +34,8 @@ public class GameCore {
 		if(player.getHP() == 0) {
 			//restart
 			//player.addWeapon(new RockLevelOne());
-			addRockLevelOne(player.getPosX(),player.getPosY());
+			addRock(1, player.getPosX(),player.getPosY());
+			addHoming(2, player.getPosX(),player.getPosY());
 			player.setHP(101);
 		}
 		
@@ -51,6 +53,8 @@ public class GameCore {
 		speed = Config.DEFAULT_ENEMY_SPEED;
 		Enemy nearestEnemy = null;
 		double nearestDistance = 1e9;
+		Enemy farthestEnemy = null;//farthest
+		double farthestDistance = -1;
 		for(Enemy enemy: Main.getEnemies()) {
 			float dx = player.getPosX() - enemy.getPosX();
 			float dy = player.getPosY() - enemy.getPosY();
@@ -58,6 +62,10 @@ public class GameCore {
 			if(distance < nearestDistance) {
 				nearestDistance = distance;
 				nearestEnemy = enemy;
+			}
+			if(distance > farthestDistance) {
+				farthestDistance = distance;
+				farthestEnemy = enemy;
 			}
 			float sum = Math.abs(dx) + Math.abs(dy);
 			if(Math.abs(dx) > 25 || Math.abs(dy) > 25 ) {
@@ -89,11 +97,19 @@ public class GameCore {
 		//updateAllPos();
 		
 		if(nearestEnemy != null) {
+			
 			for(BaseWeapon weapon:player.getWeapons()) {
-				weapon.changePosition(nearestEnemy);
-				if(weapon.isCollideEntity(nearestEnemy)) {
-					nearestEnemy.setHP(nearestEnemy.getHP()-weapon.getDamage());
-					resetRockLater((BaseRock) weapon, player.getPosX(), player.getPosY());
+				if(weapon instanceof BaseRock) {
+					attackRock((BaseRock) weapon, nearestEnemy);
+				}
+				
+				else if(weapon instanceof BaseHoming) {		
+					Entity nearestNextEnemy = ((BaseHoming)weapon).getNearestNextEnemy();
+					if(((BaseHoming)weapon).getCurrentEntity() == null) {
+						((BaseHoming)weapon).setCurrentEntity(farthestEnemy);
+						((BaseHoming)weapon).setStatus(true);
+					}
+					attackHoming((BaseHoming) weapon, nearestNextEnemy);
 				}
 			}
 			if(nearestEnemy.getHP() <= 0) {
@@ -112,7 +128,7 @@ public class GameCore {
 			while (true) {
 				Thread.sleep(Config.DELAY_BETWEEN_FRAME);
 				this.gameLoop();
-				if(counter%50 == 0) {
+				if(counter%20 == 0) {
 					float randomPosX = (float) Math.floor(Math.random() * (Config.SCREEN_WIDTH - 0 + 1) + 0);
 					float randomPosY = (float) Math.floor(Math.random() * (Config.SCREEN_HEIGHT - 0 + 1) + 0);
 					addEnemy(randomPosX, randomPosY, 1);
@@ -169,11 +185,11 @@ public class GameCore {
 		});
 	}
 	
-	private static void addRockLevelOne(float posX, float posY) {
+	private static void addRock(int level, float posX, float posY) {
 		Platform.runLater(new Runnable(){
 			@Override
 			public void run() {
-				Main.addRockLevelOne(posX, posY);
+				Main.addRock(level, posX, posY);
 			}
 		});
 	}
@@ -186,6 +202,57 @@ public class GameCore {
 			}
 		});
 	}
+	
+	private static void addHoming(int level, float posX, float posY) {
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				Main.addHoming(level, posX, posY);
+			}
+		});
+	}
+	
+	private void attackRock(BaseRock rock, Entity nearestEnemy) {
+		if(rock.getStatus() && Main.getEnemies().contains(rock.getCurrentEntity())) { // has target
+			rock.changePosition(rock.getCurrentEntity());// rock is going to the enemy
+			if(rock.isCollideEntity(rock.getCurrentEntity())) { // rock hit the target
+				rock.getCurrentEntity().setHP(rock.getCurrentEntity().getHP()-rock.getDamage()); 
+				rock.setStatus(false); // set status to no currently target
+				resetRockLater(rock, player.getPosX(), player.getPosY());  // reset the rock position after hit
+			}	
+		}
+		
+		else { // no currently target
+			resetRockLater(rock, player.getPosX(), player.getPosY());
+			rock.setCurrentEntity(nearestEnemy);
+			rock.setStatus(true);
+		}
+	}
+	
+	private void attackHoming(BaseHoming homing, Entity nearestNextEnemy) { // just like the rock but there is no reset, so it will move continuously
+		if(homing.getStatus() && Main.getEnemies().contains(homing.getCurrentEntity())) {
+			homing.changePosition(homing.getCurrentEntity());
+			if(homing.isCollideEntity(homing.getCurrentEntity())) {
+				homing.getCurrentEntity().setHP(homing.getCurrentEntity().getHP()-homing.getDamage());
+				homing.setStatus(false);
+			}	
+		}
+		
+		else {
+			homing.setCurrentEntity(nearestNextEnemy);
+			homing.setStatus(true);
+		}
+	}
+	
+	/*
+	private static void resetHomingLater(BaseHoming homing, float posX, float posY) {
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				Main.resetHoming(homing ,posX, posY);
+			}
+		});
+	}*/
 	
 
 }

@@ -1,17 +1,17 @@
-package weapon.rock;
+package weapon.homing;
 
-import config.Config;
+import game.Enemy;
 import game.Entity;
+import game.Main;
 import javafx.scene.image.Image;
 import weapon.BaseWeapon;
 
-public class BaseRock extends BaseWeapon{
-	
+public class BaseHoming extends BaseWeapon{
 	private int speed;
-	private boolean status; // true = there is currently enemy the rock is targeting
+	private boolean status;
 	private Entity currentEntity;
 	
-	public BaseRock(Image image2,float posX, float posY, int level) {
+	public BaseHoming(Image image2,float posX, float posY, int level) {
 		super(image2, posX, posY);
 		//setPosX((Config.SCREEN_WIDTH-30)/2);
 		//setPosY((Config.SCREEN_HEIGHT-30)/2);
@@ -44,6 +44,22 @@ public class BaseRock extends BaseWeapon{
 		this.setPosY(posY);
 	}
 	
+	public Entity getNearestNextEnemy() {
+		Entity nearestNextEnemy = null;
+		double nearestDistanceNextEnemy = 1e9;
+		for(Enemy enemy:Main.getEnemies()) {
+			float dx = this.getPosX() - enemy.getPosX();
+			float dy = this.getPosY() - enemy.getPosY();
+			double distance = Math.sqrt((dx*dx)+(dy*dy));
+			if(distance < nearestDistanceNextEnemy) {
+				nearestDistanceNextEnemy = distance;
+				nearestNextEnemy = enemy;
+			}
+		}
+		return nearestNextEnemy;
+	}
+
+	
 	public int getSpeed() {
 		return speed;
 	}
@@ -67,6 +83,5 @@ public class BaseRock extends BaseWeapon{
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-	
 	
 }
