@@ -3,8 +3,11 @@ package game;
 import java.util.ArrayList;
 
 import config.Config;
-import items.Item;
+import item.Item;
 import javafx.application.Platform;
+import weapon.BaseWeapon;
+import weapon.rock.BaseRock;
+import weapon.rock.RockLevelOne;
 
 public class GameCore {
 	private Player player;
@@ -27,11 +30,15 @@ public class GameCore {
 			player.changeEntityAnimation();
 			player.setEntityCounter(0);
 		}
-		if(player.getHP() <= 0) {
+		if(player.getHP() == 0) {
 			//restart
+			//player.addWeapon(new RockLevelOne());
+			addRockLevelOne(player.getPosX(),player.getPosY());
+			player.setHP(101);
 		}
 		
 		//if(player.isCollideItem(null))
+		
 		
 		for(Item item: Main.getItems()) {
 			if(player.isCollideItem(item)) {
@@ -42,9 +49,16 @@ public class GameCore {
 		if(Main.getItems().contains(b)) removeItemLater(b);
 		
 		speed = Config.DEFAULT_ENEMY_SPEED;
+		Enemy nearestEnemy = null;
+		double nearestDistance = 1e9;
 		for(Enemy enemy: Main.getEnemies()) {
 			float dx = player.getPosX() - enemy.getPosX();
 			float dy = player.getPosY() - enemy.getPosY();
+			double distance = Math.sqrt((dx*dx)+(dy*dy));
+			if(distance < nearestDistance) {
+				nearestDistance = distance;
+				nearestEnemy = enemy;
+			}
 			float sum = Math.abs(dx) + Math.abs(dy);
 			if(Math.abs(dx) > 25 || Math.abs(dy) > 25 ) {
 				enemy.setPosX(enemy.getPosX() + speed*(dx/(sum)));
@@ -55,6 +69,7 @@ public class GameCore {
 			
 			if(player.isCollideEntity(enemy)) {
 				System.out.println("HIT!!");
+				System.out.println(player.getHP());
 				enemy.setHP(enemy.getHP()-1); 
 				player.setHP(player.getHP()-enemy.getHitDamage()); // both enemy and player take damage
 			}
@@ -72,6 +87,21 @@ public class GameCore {
 		if(Main.getEnemies().contains(a)) removeEnemyLater(a); // remove
 		//break;
 		//updateAllPos();
+		
+		if(nearestEnemy != null) {
+			for(BaseWeapon weapon:player.getWeapons()) {
+				weapon.changePosition(nearestEnemy);
+				if(weapon.isCollideEntity(nearestEnemy)) {
+					nearestEnemy.setHP(nearestEnemy.getHP()-weapon.getDamage()); 
+				}
+			}
+			if(nearestEnemy.getHP() <= 0) {
+			removeEnemyLater(nearestEnemy);
+		}
+		}
+		
+		
+		
 	}
 
 	public void executeGameCore() {
@@ -81,8 +111,10 @@ public class GameCore {
 			while (true) {
 				Thread.sleep(Config.DELAY_BETWEEN_FRAME);
 				this.gameLoop();
-				if(counter%200 == 0) {
-					addEnemy();
+				if(counter%10 == 0) {
+					float randomPosX = (float) Math.floor(Math.random() * (Config.SCREEN_WIDTH - 0 + 1) + 0);
+					float randomPosY = (float) Math.floor(Math.random() * (Config.SCREEN_HEIGHT - 0 + 1) + 0);
+					addEnemy(randomPosX, randomPosY, 1);
 				}
 				/*if(counter%500 == 0) { // add bomb randomly
 					//float randomPosX = (float) (Math.random() * (Config.SCREEN_WIDTH + 1));
@@ -127,11 +159,20 @@ public class GameCore {
 		});
 	}
 
-	private static void addEnemy() {
+	private static void addEnemy(float posX, float posY,int hP) {
 		Platform.runLater(new Runnable(){
 			@Override
 			public void run() {
-				Main.addEnemy();
+				Main.addEnemy(posX, posY, hP);
+			}
+		});
+	}
+	
+	private static void addRockLevelOne(float posX, float posY) {
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				Main.addRockLevelOne(posX, posY);
 			}
 		});
 	}

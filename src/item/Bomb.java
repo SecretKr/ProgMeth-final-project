@@ -1,4 +1,4 @@
-package items;
+package item;
 
 import config.Config;
 import game.Main;

@@ -3,8 +3,8 @@ package game;
 import java.util.ArrayList;
 
 import config.Config;
-import items.Bomb;
-import items.Item;
+import item.Bomb;
+import item.Item;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -24,6 +24,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import weapon.rock.RockLevelOne;
 
 public class Main extends Application {
 	private static ArrayList<Enemy> enemies;
@@ -37,7 +38,7 @@ public class Main extends Application {
 		pane = new Pane();
 		enemies = new ArrayList<Enemy>();
 		items = new ArrayList<Item>();
-		player = new Player();
+		player = new Player((Config.SCREEN_WIDTH-Config.PLAYER_WIDTH)/2, (Config.SCREEN_HEIGHT-Config.PLAYER_HEIGHT)/2, Config.PLAYER_HP);
 		pane.getChildren().add(player);
 		
 		//addEnemy();
@@ -116,8 +117,8 @@ public class Main extends Application {
 	    });
 	}
 
-	public static void addEnemy(){
-		enemies.add(new Enemy());
+	public static void addEnemy(float posX, float posY, int hP){
+		enemies.add(new Enemy(posX, posY, hP));
 		pane.getChildren().add(enemies.get(enemies.size()-1));
 	}
 	
@@ -141,6 +142,11 @@ public class Main extends Application {
 		pane.getChildren().add(items.get(items.size()-1));
 	}
 	
+	public static void addRockLevelOne(float posX, float posY) {
+		player.addWeapon(new RockLevelOne(posX, posY));
+		pane.getChildren().add(player.getWeapons().get(player.getWeapons().size()-1));
+	}
+
 	public static void removeItem(Item item) {
 		items.remove(item);
 		pane.getChildren().remove(item);

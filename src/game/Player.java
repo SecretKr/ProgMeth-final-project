@@ -1,20 +1,27 @@
 package game;
 
+import java.util.ArrayList;
+
 import config.Config;
-import items.Item;
+import item.Item;
 import javafx.scene.image.Image;
+import weapon.BaseWeapon;
 
 public class Player extends Entity {
-	public Player() {
-		super(new Image("/Assets/mario.png", 50, 50, false, false));
+	
+	private ArrayList<BaseWeapon> weapons;
+	
+	public Player(float posX, float posY, int hP) {
+		super(new Image("/Assets/mario.png", 50, 50, false, false), posX, posY, hP);
 		setDirection("down");
-		setPosX((Config.SCREEN_WIDTH-Config.PLAYER_WIDTH)/2);
-		setPosY((Config.SCREEN_HEIGHT-Config.PLAYER_HEIGHT)/2);
+		//setPosX((Config.SCREEN_WIDTH-Config.PLAYER_WIDTH)/2);
+		//setPosY((Config.SCREEN_HEIGHT-Config.PLAYER_HEIGHT)/2);
 		setAlive(true);
 		setHP(100);
 		setWidth(Config.PLAYER_WIDTH);
 		setHeight(Config.PLAYER_HEIGHT);
 		setHitDamage(10);
+		setWeapons(new ArrayList<BaseWeapon>());
 	}
 	
 	public boolean isCollideEntity(Entity enemy) {
@@ -124,6 +131,20 @@ public class Player extends Entity {
 			}
 		}
 		this.setImage(image);
+	}
+	
+	public void addWeapon(BaseWeapon weapon) {
+		ArrayList<BaseWeapon> tempWeapons = this.getWeapons();
+		tempWeapons.add(weapon);
+		this.setWeapons(tempWeapons);
+	}
+	
+	public ArrayList<BaseWeapon> getWeapons(){
+		return weapons;
+	}
+	
+	public void setWeapons(ArrayList<BaseWeapon> weapons) {
+		this.weapons = weapons;
 	}
 	
 	

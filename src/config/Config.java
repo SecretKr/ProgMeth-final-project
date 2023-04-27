@@ -6,9 +6,11 @@ public class Config {
 	public static final int PLAYER_WIDTH = 50;
 	public static final int PLAYER_HEIGHT = 50;
 	public static final float DEFAULT_PLAYER_SPEED = 3;
+	public static final int PLAYER_HP = 100;
 	public static final int ENEMY_WIDTH = 30;
 	public static final int ENEMY_HEIGHT = 30;
 	public static final float DEFAULT_ENEMY_SPEED = 1;
+	public static final int ENEMY_HP = 1;
 	public static final int ITEM_WIDTH = 10;
 	public static final int ITEM_HEIGHT = 10;
 	public static final int DELAY_BETWEEN_FRAME = 5;

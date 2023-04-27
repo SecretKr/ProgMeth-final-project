@@ -21,8 +21,12 @@ public abstract class Entity extends ImageView {
 	
 	
 	
-	public Entity(Image image2) {
+	public Entity(Image image2,float posX, float posY, int hP) {
 		super(image2);
+		this.setPosX(posX);
+		this.setPosY(posY);
+		this.setHP(hP);
+		super.relocate(posX, posY);
 	}
 	
 	public void updatePos() {
