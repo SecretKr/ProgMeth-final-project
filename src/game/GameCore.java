@@ -12,9 +12,11 @@ import weapon.rock.RockLevelOne;
 
 public class GameCore {
 	private Player player;
+	private StatusBar statusBar;
 
-	public GameCore(Player player) {
+	public GameCore(Player player, StatusBar statusBar) {
 		this.player = player;
+		this.statusBar = statusBar;
 	}
 
 	public void gameLoop() {
@@ -81,6 +83,8 @@ public class GameCore {
 				System.out.println(player.getHP());
 				enemy.setHP(enemy.getHP()-1); 
 				player.setHP(player.getHP()-enemy.getHitDamage()); // both enemy and player take damage
+				statusBar.setHp(player.getHP());
+				updateStatusBar();
 			}
 			
 			if(enemy.getHP() <= 0) {
@@ -145,6 +149,16 @@ public class GameCore {
 			}
 		} catch (Exception e) {
 		}
+	}
+	
+	public void updateStatusBar() {
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				statusBar.update();
+			}
+		});
 	}
 	
 	public void removeItemLater(Item b) {

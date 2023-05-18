@@ -45,6 +45,11 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		//Group root = new Group();
 		pane = new Pane();
+		StatusBar statusBar = new StatusBar();
+		statusBar.relocate(0, 0);
+		pane.getChildren().add(statusBar);
+		
+		
 		enemies = new ArrayList<Enemy>();
 		items = new ArrayList<Item>();
 		pane.setBackground(new Background(new BackgroundImage(new Image("/assets/scene/grass.png", 320, 320, false, false), null, null, null, null)));
@@ -55,7 +60,7 @@ public class Main extends Application {
 		
 		Scene scene = new Scene(pane, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
 		movePlayer(scene, player);
-		GameCoreWrapper gameCoreWrapper = new GameCoreWrapper(player);
+		GameCoreWrapper gameCoreWrapper = new GameCoreWrapper(player, statusBar);
 		gameCoreWrapper.start();
 		
 		primaryStage.setTitle("Game");
