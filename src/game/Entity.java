@@ -107,10 +107,6 @@ public abstract class Entity extends ImageView {
 		return entityNum;
 	}
 	
-	public String getEntityNumString() {
-		return Integer.toString(getEntityNum());
-	}
-	
 	public void setEntityNum(int entityNum) {
 		this.entityNum = entityNum;
 	}

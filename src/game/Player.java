@@ -13,7 +13,7 @@ public class Player extends Entity {
 	private int xP;
 	
 	public Player(float posX, float posY, int hP) {
-		super(new Image("assets/player/0.png", 50, 50, false, false), posX, posY, hP);
+		super(Asset.player.get(0), posX, posY, hP);
 		setDirection("down");
 		//setPosX((Config.SCREEN_WIDTH-Config.PLAYER_WIDTH)/2);
 		//setPosY((Config.SCREEN_HEIGHT-Config.PLAYER_HEIGHT)/2);
@@ -26,7 +26,7 @@ public class Player extends Entity {
 	}
 	
 	public int getEntityNumMax() {
-		return 6;
+		return Asset.playerFrame;
 	}
 	
 	public boolean isCollideEntity(Entity enemy) {
@@ -103,19 +103,19 @@ public class Player extends Entity {
 		Image image = null;
 		
 		if(getDirection() == "up") {
-			image = new Image("assets/player/up" + getEntityNumString() + ".png", 50, 50, false, false);
+			image = Asset.playerUp.get(getEntityNum());
 		}
 		else if(getDirection() == "down") {
-			image = new Image("assets/player/down" + getEntityNumString() + ".png", 50, 50, false, false);
+			image = Asset.playerDown.get(getEntityNum());
 		}
 		else if(getDirection() == "left") {
-			image = new Image("assets/player/left" + getEntityNumString() + ".png", 50, 50, false, false);
+			image = Asset.playerLeft.get(getEntityNum());
 		}
 		else if(getDirection() == "right") {
-			image = new Image("assets/player/right" + getEntityNumString() + ".png", 50, 50, false, false);
+			image = Asset.playerRight.get(getEntityNum());
 		}
 		else if(getDirection() == "stop") {
-			image = new Image("assets/player/" + getEntityNumString() + ".png", 50, 50, false, false);
+			image = Asset.player.get(getEntityNum());
 		}
 		this.setImage(image);
 	}
