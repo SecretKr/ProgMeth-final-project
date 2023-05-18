@@ -18,6 +18,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -45,6 +47,7 @@ public class Main extends Application {
 		pane = new Pane();
 		enemies = new ArrayList<Enemy>();
 		items = new ArrayList<Item>();
+		pane.setBackground(new Background(new BackgroundImage(new Image("/assets/scene/grass.png", 320, 320, false, false), null, null, null, null)));
 		player = new Player((Config.SCREEN_WIDTH-Config.PLAYER_WIDTH)/2, (Config.SCREEN_HEIGHT-Config.PLAYER_HEIGHT)/2, Config.PLAYER_HP);
 		pane.getChildren().add(player);
 		
@@ -119,6 +122,7 @@ public class Main extends Application {
 	        		if(movementX == 0.707f) movementX = 1;
 	        		if(movementX == -0.707f) movementX = -1;
 	        	}
+	        	if(movementY == 0 && movementX == 0) player.setDirection("stop");
 	        	player.setMovement(movementX, movementY);
 	        }
 	    });

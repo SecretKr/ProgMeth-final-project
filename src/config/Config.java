@@ -13,7 +13,7 @@ public class Config {
 	public static final int ENEMY_HP = 1;
 	public static final int ITEM_WIDTH = 10;
 	public static final int ITEM_HEIGHT = 10;
-	public static final int DELAY_BETWEEN_FRAME = 5;
+	public static final int DELAY_BETWEEN_FRAME = 8;
 	
 	
 	public class Rock{

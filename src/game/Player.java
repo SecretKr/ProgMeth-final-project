@@ -12,7 +12,7 @@ public class Player extends Entity {
 	private ArrayList<BaseWeapon> weapons;
 	
 	public Player(float posX, float posY, int hP) {
-		super(new Image("/Assets/mario.png", 50, 50, false, false), posX, posY, hP);
+		super(new Image("assets/player/0.png", 50, 50, false, false), posX, posY, hP);
 		setDirection("down");
 		//setPosX((Config.SCREEN_WIDTH-Config.PLAYER_WIDTH)/2);
 		//setPosY((Config.SCREEN_HEIGHT-Config.PLAYER_HEIGHT)/2);
@@ -22,6 +22,10 @@ public class Player extends Entity {
 		setHeight(Config.PLAYER_HEIGHT);
 		setHitDamage(10);
 		setWeapons(new ArrayList<BaseWeapon>());
+	}
+	
+	public int getEntityNumMax() {
+		return 6;
 	}
 	
 	public boolean isCollideEntity(Entity enemy) {
@@ -95,40 +99,22 @@ public class Player extends Entity {
 	}
 	
 	public void draw() {
-		//System.out.println("count:"+this.getEntityCounter());
 		Image image = null;
 		
 		if(getDirection() == "up") {
-			if(getEntityNum()==0) {
-				image = new Image("Assets/up1.png", 50, 50, false, false);
-			}
-			else if(getEntityNum()==1) {
-				image = new Image("Assets/up2.png", 50, 50, false, false);
-			}
+			image = new Image("assets/player/up" + getEntityNumString() + ".png", 50, 50, false, false);
 		}
 		else if(getDirection() == "down") {
-			if(getEntityNum()==0) {
-				image = new Image("Assets/down1.png", 50, 50, false, false);
-			}
-			else if(getEntityNum()==1) {
-				image = new Image("Assets/down2.png", 50, 50, false, false);
-			}
+			image = new Image("assets/player/down" + getEntityNumString() + ".png", 50, 50, false, false);
 		}
 		else if(getDirection() == "left") {
-			if(getEntityNum()==0) {
-				image = new Image("Assets/left1.png", 50, 50, false, false);
-			}
-			else if(getEntityNum()==1) {
-				image = new Image("Assets/left2.png", 50, 50, false, false);
-			}
+			image = new Image("assets/player/left" + getEntityNumString() + ".png", 50, 50, false, false);
 		}
 		else if(getDirection() == "right") {
-			if(getEntityNum()==0) {
-				image = new Image("Assets/right1.png", 50, 50, false, false);
-			}
-			else if(getEntityNum()==1) {
-				image = new Image("Assets/right2.png", 50, 50, false, false);
-			}
+			image = new Image("assets/player/right" + getEntityNumString() + ".png", 50, 50, false, false);
+		}
+		else if(getDirection() == "stop") {
+			image = new Image("assets/player/" + getEntityNumString() + ".png", 50, 50, false, false);
 		}
 		this.setImage(image);
 	}

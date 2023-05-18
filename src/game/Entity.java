@@ -12,6 +12,7 @@ public abstract class Entity extends ImageView {
 	private float movementY;
 	private boolean alive;
 	private int entityNum=0;
+	private int entityNumMax=0;
 	private int entityCounter=0;
 	private String direction;
 	private int hP;
@@ -96,12 +97,18 @@ public abstract class Entity extends ImageView {
 		this.movementY = y;
 	}
 	
+	public abstract int getEntityNumMax();
+	
 	public void changeEntityAnimation() {
-		this.setEntityNum((entityNum+1)%2);
+		this.setEntityNum((entityNum+1)%getEntityNumMax());
 	}
 	
 	public int getEntityNum() {
 		return entityNum;
+	}
+	
+	public String getEntityNumString() {
+		return Integer.toString(getEntityNum());
 	}
 	
 	public void setEntityNum(int entityNum) {

@@ -25,8 +25,8 @@ public class GameCore {
 		player.setPosY(player.getPosY() + speed*player.getMovementY());
 		player.updatePos();
 		player.draw();
-		
 		player.setEntityCounter(player.getEntityCounter()+1);
+		
 		if(player.getEntityCounter() >= 20) {
 			player.changeEntityAnimation();
 			player.setEntityCounter(0);
@@ -72,7 +72,8 @@ public class GameCore {
 				enemy.setPosX(enemy.getPosX() + speed*(dx/(sum)));
 				enemy.setPosY(enemy.getPosY() + speed*(dy/(sum)));
 				enemy.updatePos();
-				
+				enemy.draw();
+				enemy.setEntityCounter(enemy.getEntityCounter()+1);
 			}
 			
 			if(player.isCollideEntity(enemy)) {
@@ -128,7 +129,7 @@ public class GameCore {
 			while (true) {
 				Thread.sleep(Config.DELAY_BETWEEN_FRAME);
 				this.gameLoop();
-				if(counter%20 == 0) {
+				if(counter%40 == 0) {
 					float randomPosX = (float) Math.floor(Math.random() * (Config.SCREEN_WIDTH - 0 + 1) + 0);
 					float randomPosY = (float) Math.floor(Math.random() * (Config.SCREEN_HEIGHT - 0 + 1) + 0);
 					addEnemy(randomPosX, randomPosY, 1);
