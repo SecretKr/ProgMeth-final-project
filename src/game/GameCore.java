@@ -13,7 +13,7 @@ import weapon.rock.RockLevelOne;
 public class GameCore {
 	private Player player;
 	private StatusBar statusBar;
-
+	
 	public GameCore(Player player, StatusBar statusBar) {
 		this.player = player;
 		this.statusBar = statusBar;
@@ -36,9 +36,9 @@ public class GameCore {
 		if(player.getHP() == 0) {
 			//restart
 			//player.addWeapon(new RockLevelOne());
-			addRock(1, player.getPosX(),player.getPosY());
-			addHoming(2, player.getPosX(),player.getPosY());
-			player.setHP(101);
+			//addRock(1, player.getPosX(),player.getPosY());
+			//addHoming(2, player.getPosX(),player.getPosY());
+			//player.setHP(101);
 		}
 		
 		//if(player.isCollideItem(null))
@@ -79,8 +79,8 @@ public class GameCore {
 			}
 			
 			if(player.isCollideEntity(enemy)) {
-				System.out.println("HIT!!");
-				System.out.println(player.getHP());
+				//System.out.println("HIT!!");
+				//System.out.println(player.getHP());
 				enemy.setHP(enemy.getHP()-1); 
 				player.setHP(player.getHP()-enemy.getHitDamage()); // both enemy and player take damage
 				statusBar.setHp(player.getHP());
@@ -91,7 +91,9 @@ public class GameCore {
 				//System.out.println("HIT!!");
 				//Main.getEnemies().remove(enemy);
 				//Main.getEnemies().clear();
+				EntityController.increaseEnemyKilled();
 				a = enemy; // store which enemy has to be remove to remove after list iteration
+				System.out.println(Integer.toString(EntityController.getEnemyKilled()) + "/" + Integer.toString(EntityController.getEnemyAmountMax()));
 			}
 			
 		
@@ -122,7 +124,9 @@ public class GameCore {
 		}
 		}
 		
-		
+		if(EntityController.getEnemyAmountMax() == EntityController.getEnemyKilled()) {
+			EntityController.updateWave();
+		}
 		
 	}
 
@@ -133,9 +137,10 @@ public class GameCore {
 			while (true) {
 				Thread.sleep(Config.DELAY_BETWEEN_FRAME);
 				this.gameLoop();
-				if(counter%40 == 0) {
+				if(counter%40 == 0 && EntityController.isSpawnable() ) {
 					float randomPosX = (float) Math.floor(Math.random() * (Config.SCREEN_WIDTH - 0 + 1) + 0);
 					float randomPosY = (float) Math.floor(Math.random() * (Config.SCREEN_HEIGHT - 0 + 1) + 0);
+					EntityController.increaseEnemyAmount();
 					addEnemy(randomPosX, randomPosY, 1);
 				}
 				/*if(counter%500 == 0) { // add bomb randomly
@@ -156,6 +161,9 @@ public class GameCore {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
+				statusBar.setHp(player.getHP());
+				statusBar.setXp(player.getXP());
+				statusBar.setWave(EntityController.getWave());
 				statusBar.update();
 			}
 		});

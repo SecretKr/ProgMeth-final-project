@@ -17,19 +17,19 @@ public class StatusBar extends HBox {
 	private int xp = 0;
 	private int wave = 1;
 	
-	public StatusBar() {
+	public StatusBar(int hp, int xp, int wave) {
 		this.setPrefSize(Config.SCREEN_WIDTH, 20);
 		this.setAlignment(Pos.CENTER);
 		this.setSpacing(50);
 		this.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
 		
-		Text xpText = new Text("XP: 0");
+		Text xpText = new Text("XP: " + Integer.toString(xp));
 		xpText.setFont(new Font(16));
 		
-		Text hpText = new Text("HP: 100");
+		Text hpText = new Text("HP: " + Integer.toString(hp));
 		hpText.setFont(new Font(16));
 		
-		Text waveText = new Text("Wave 1");
+		Text waveText = new Text("Wave " + Integer.toString(wave));
 		waveText.setFont(new Font(16));
 
 		this.getChildren().add(hpText);

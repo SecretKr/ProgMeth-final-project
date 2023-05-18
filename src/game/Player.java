@@ -10,6 +10,7 @@ import weapon.BaseWeapon;
 public class Player extends Entity {
 	
 	private ArrayList<BaseWeapon> weapons;
+	private int xP;
 	
 	public Player(float posX, float posY, int hP) {
 		super(new Image("assets/player/0.png", 50, 50, false, false), posX, posY, hP);
@@ -137,6 +138,14 @@ public class Player extends Entity {
 	
 	public void setWeapons(ArrayList<BaseWeapon> weapons) {
 		this.weapons = weapons;
+	}
+
+	public int getXP() {
+		return xP;
+	}
+
+	public void setXP(int xP) {
+		this.xP = xP;
 	}
 	
 	

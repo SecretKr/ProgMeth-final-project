@@ -45,7 +45,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		//Group root = new Group();
 		pane = new Pane();
-		StatusBar statusBar = new StatusBar();
+		StatusBar statusBar = new StatusBar(Config.PLAYER_HP, 0, EntityController.getWave());
 		statusBar.relocate(0, 0);
 		pane.getChildren().add(statusBar);
 		
