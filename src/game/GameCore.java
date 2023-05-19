@@ -91,6 +91,7 @@ public class GameCore {
 				//System.out.println("HIT!!");
 				//Main.getEnemies().remove(enemy);
 				//Main.getEnemies().clear();
+				player.setXP(player.getXP()+1);
 				EntityController.increaseEnemyKilled();
 				a = enemy; // store which enemy has to be remove to remove after list iteration
 				System.out.println(Integer.toString(EntityController.getEnemyKilled()) + "/" + Integer.toString(EntityController.getEnemyAmountMax()));
@@ -131,9 +132,12 @@ public class GameCore {
 	}
 
 	public void executeGameCore() {
+		
 		try {
 			int counter = 0;
-			Main.addBomb(500,500);
+
+			//Main.addBomb(500,500);
+			
 			while (true) {
 				Thread.sleep(Config.DELAY_BETWEEN_FRAME);
 				this.gameLoop();
@@ -153,6 +157,7 @@ public class GameCore {
 				counter += 1;
 			}
 		} catch (Exception e) {
+			
 		}
 	}
 	
