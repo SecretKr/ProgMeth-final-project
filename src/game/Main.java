@@ -7,21 +7,25 @@ import item.Bomb;
 import item.Item;
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -40,16 +44,43 @@ public class Main extends Application {
 	private static ArrayList<Item> items;
 	private static Pane pane;
 	private static Player player;
+	private static Scene scene;
 	
 	@Override
 	public void start(Stage primaryStage) {
 		//Group root = new Group();
 		Asset.getAssets();
 		pane = new Pane();
+		VBox menu = new VBox();
+		
+		Button playBt = new Button("Play");
+		playBt.setOnAction(e -> {
+			pane.getChildren().clear();
+        	startGame(primaryStage);
+	    });
+		menu.getChildren().add(playBt);
+		Button exitBt = new Button("Quit game");
+		exitBt.setOnAction(e -> {
+        	return;
+	    });
+		menu.setPrefSize(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
+		menu.getChildren().add(exitBt);
+		menu.setAlignment(Pos.CENTER);
+		menu.setSpacing(50);
+		
+		pane.getChildren().add(menu);
+		scene = new Scene(pane, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
+		
+		primaryStage.setTitle("Game");
+		primaryStage.setScene(scene);
+		primaryStage.setResizable(false);
+		primaryStage.show();
+	}
+	
+	public void startGame(Stage primaryStage) {
 		StatusBar statusBar = new StatusBar(Config.PLAYER_HP, 0, EntityController.getWave());
 		statusBar.relocate(0, 0);
 		pane.getChildren().add(statusBar);
-		
 		
 		enemies = new ArrayList<Enemy>();
 		items = new ArrayList<Item>();
@@ -57,17 +88,9 @@ public class Main extends Application {
 		player = new Player((Config.SCREEN_WIDTH-Config.PLAYER_WIDTH)/2, (Config.SCREEN_HEIGHT-Config.PLAYER_HEIGHT)/2, Config.PLAYER_HP);
 		pane.getChildren().add(player);
 		
-		//addEnemy();
-		
-		Scene scene = new Scene(pane, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
 		movePlayer(scene, player);
 		GameCoreWrapper gameCoreWrapper = new GameCoreWrapper(player, statusBar);
 		gameCoreWrapper.start();
-		
-		primaryStage.setTitle("Game");
-		primaryStage.setScene(scene);
-		primaryStage.setResizable(false);
-		primaryStage.show();
 	}
 	
 	private static void movePlayer(Scene scene, Player player) {
@@ -155,8 +178,11 @@ public class Main extends Application {
 	}
 	
 	public static void addBomb(float posX, float posY) {
+		System.out.print(".");
 		items.add(new Bomb(posX, posY));
+		System.out.print(".");
 		pane.getChildren().add(items.get(items.size()-1));
+		System.out.print("a");
 	}
 	
 	public static void addRock(int level, float posX, float posY) {
