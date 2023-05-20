@@ -1,7 +1,5 @@
 package game;
 
-import java.util.ArrayList;
-
 public class GameCoreWrapper extends Thread {
 	private GameCore gameCore;
 

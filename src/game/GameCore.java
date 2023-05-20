@@ -1,15 +1,13 @@
 package game;
 
-import java.util.ArrayList;
-
 import config.Config;
 import item.Bomb;
 import item.Item;
+import item.Potion;
 import javafx.application.Platform;
 import weapon.BaseWeapon;
 import weapon.homing.BaseHoming;
 import weapon.rock.BaseRock;
-import weapon.rock.RockLevelOne;
 
 public class GameCore {
 	private Player player;
@@ -23,13 +21,17 @@ public class GameCore {
 
 	public void gameLoop() {
 		float speed = Config.DEFAULT_PLAYER_SPEED;
-		Enemy a = null;
-		Item b = null;
+		Enemy tempEnemy = null;
+		Item tempItem = null;
+		BaseRock tempRock = null;
+		BaseHoming tempHoming = null;
+		
 		player.setPosX(player.getPosX() + speed*player.getMovementX());
 		player.setPosY(player.getPosY() + speed*player.getMovementY());
 		player.updatePos();
 		player.draw();
 		player.setEntityCounter(player.getEntityCounter()+1);
+		updateStatusBar();
 		
 		if(player.getEntityCounter() >= 20) {
 			player.changeEntityAnimation();
@@ -40,24 +42,17 @@ public class GameCore {
 		}
 		
 		if(player.getXP() >= player.getLevel() * player.getLevel() * 10) { // level up
-			
-			System.out.println("lv up");
 			player.setLevel(player.getLevel() + 1);
-			
 			int IndexWeaponToUpgrade = Util.randomWeapon(player);
 			if(IndexWeaponToUpgrade != -1) {
 				BaseWeapon weaponToUpgrade = player.getWeapons().get(IndexWeaponToUpgrade);
 				if(weaponToUpgrade instanceof BaseRock) {
 					upgradeRock((BaseRock) player.getWeapons().get(player.getRockIndex()), player.getPosX(),player.getPosY());
 				}
-				
 				else if(weaponToUpgrade instanceof BaseHoming) {
 					upgradeHoming((BaseHoming) player.getWeapons().get(player.getHomingIndex()), player.getPosX(),player.getPosY());
 				}
-				
 			}
-			
-			
 		}
 		
 		
@@ -70,13 +65,16 @@ public class GameCore {
 					player.setXP(player.getXP() + enemyAmount);
 					Asset.bomb.play();
 				}
-				useItemLater(item);
-				//removeItemLater(item);
-				b = item;
+				
+				if(item instanceof Potion) {
+					player.setHP(Config.PLAYER_HP);
+				}
+				tempItem = item;
+				useItemLater(tempItem);
 			}
 		}
 		
-		if(b!=null) removeItemLater(b);
+		if(tempItem!=null) removeItemLater(tempItem);
 		
 		speed = Config.DEFAULT_ENEMY_SPEED;
 		Enemy nearestEnemy = null;
@@ -109,74 +107,73 @@ public class GameCore {
 				player.setHP(player.getHP()-enemy.getHitDamage()); // both enemy and player take damage
 				statusBar.setHp(player.getHP());
 				Asset.enemyHit.play();
-				updateStatusBar();
 			}
 			
 			if(enemy.getHP() <= 0) {
-				//player.setXP(player.getXP()+1);
-				//EntityController.increaseEnemyKilled();
-				//removeEnemyLater(enemy);
-				a = enemy;
-				//System.out.println(Integer.toString(EntityController.getEnemyKilled()) + "/" + Integer.toString(EntityController.getEnemyAmountMax()));
+				tempEnemy = enemy;
 			}
-			
-		
-			
 		}
 		
-		if(a!=null) {
+		if(tempEnemy!=null) {
 			player.setXP(player.getXP()+1);
 			EntityController.increaseEnemyKilled();
-			removeEnemyLater(a);
+			removeEnemyLater(tempEnemy);
 			System.out.println(Integer.toString(EntityController.getEnemyKilled()) + "/" + Integer.toString(EntityController.getEnemyAmountMax()));
 		}
-		
-		//break;
-		//updateAllPos();
 			
 		if(nearestEnemy != null) {	
 			for(BaseWeapon weapon:player.getWeapons()) {
 				if(weapon.getLevel() == 0) continue;
 				if(weapon instanceof BaseRock) {
-					attackRock((BaseRock) weapon, nearestEnemy);
+					tempRock = (BaseRock) weapon;
 				}
 				else if(weapon instanceof BaseHoming) {		
-					Entity nearestNextEnemy = ((BaseHoming)weapon).getNearestNextEnemy();
 					if(((BaseHoming)weapon).getCurrentEntity() == null) {
 						((BaseHoming)weapon).setCurrentEntity(farthestEnemy);
 						((BaseHoming)weapon).setStatus(true);
 					}
-					attackHoming((BaseHoming) weapon, nearestNextEnemy);
+					tempHoming = (BaseHoming) weapon;
+					
 				}	
 			}
+			if(tempRock != null) {
+				attackRock((BaseRock) tempRock, nearestEnemy);
+					if(tempRock.getDurability() == 0) {
+						downgradeRock((BaseRock) tempRock, player.getPosX(), player.getPosY());
+					}
+			}
+			if(tempHoming != null) {
+				attackHoming((BaseHoming) tempHoming, tempHoming.getNearestNextEnemy());
+					if(tempHoming.getDurability() == 0) {
+						downgradeHoming((BaseHoming) tempHoming, player.getPosX(), player.getPosY());
+					}
+			}
 		}
-			/*
-			if(nearestEnemy.getHP() <= 0) {
-				player.setXP(player.getXP()+1);
-				EntityController.increaseEnemyKilled();
-				System.out.println(Integer.toString(EntityController.getEnemyKilled()) + "/" + Integer.toString(EntityController.getEnemyAmountMax()));
-				removeEnemyLater(nearestEnemy);
-			}*/
-		 
-		
-		if(EntityController.getEnemyAmountMax() == EntityController.getEnemyKilled()) {
+
+		if(EntityController.getEnemyAmountMax() <= EntityController.getEnemyKilled()) {
 			EntityController.updateWave();
 			Asset.nextWave.play();
+			//bomb
 			float randomPosX = (float) Math.floor(Math.random() * (Config.SCREEN_WIDTH - 0 + 1) + 0);
 			float randomPosY = (float) Math.floor(Math.random() * (Config.SCREEN_HEIGHT - 0 + 1) + 0);
+			int randint = 0 + (int)(Math.random() * (100 - 0));
 			addBomb(randomPosX, randomPosY);
+			//potion
+			randomPosX = (float) Math.floor(Math.random() * (Config.SCREEN_WIDTH - 0 + 1) + 0);
+			randomPosY = (float) Math.floor(Math.random() * (Config.SCREEN_HEIGHT - 0 + 1) + 0);
+			if(randint % 10 == 1) { // 10% chance of potion spawning
+				addPotion(randomPosX, randomPosY);
+			}
+			
 		}
 		
 	}
 
 	public void executeGameCore() {
-		
 		try {
 			int counter = 0;
-
 			addBomb(500,500);
 			initializeWeapon();
-			
 			while (true) {
 				Thread.sleep(Config.DELAY_BETWEEN_FRAME);
 				this.gameLoop();
@@ -196,7 +193,7 @@ public class GameCore {
 	}
 	
 	private void initializeWeapon() {
-		
+	
 		Platform.runLater(new Runnable(){
 			@Override
 			public void run() {
@@ -211,6 +208,15 @@ public class GameCore {
 			@Override
 			public void run() {
 				Main.addBomb(posX, posY);
+			}
+		});
+	}
+	
+	private static void addPotion(float posX, float posY) {
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				Main.addPotion(posX, posY);
 			}
 		});
 	}
@@ -231,6 +237,7 @@ public class GameCore {
 			public void run() {
 				// TODO Auto-generated method stub
 				statusBar.setHp(player.getHP());
+				statusBar.setLevel(player.getLevel());
 				statusBar.setXp(player.getXP());
 				statusBar.setWave(EntityController.getWave());
 				statusBar.update();
@@ -296,6 +303,16 @@ public class GameCore {
 		});
 	}
 	
+	private static void downgradeRock(BaseRock rock, float posX, float posY) {
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				Main.removeRock(rock);
+				Main.addRock(rock.getLevel() - 1, posX, posY);
+			}
+		});
+	}
+	
 	private static void resetRockLater(BaseRock rock, float posX, float posY) {
 		Platform.runLater(new Runnable(){
 			@Override
@@ -313,6 +330,7 @@ public class GameCore {
 			}
 		});
 	}
+
 	
 	private static void upgradeHoming(BaseHoming homing, float posX, float posY) {
 		Platform.runLater(new Runnable(){
@@ -320,6 +338,16 @@ public class GameCore {
 			public void run() {
 				Main.removeHoming(homing);
 				Main.addHoming(homing.getLevel() + 1, posX, posY);
+			}
+		});
+	}
+	
+	private static void downgradeHoming(BaseHoming homing, float posX, float posY) {
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				Main.removeHoming(homing);
+				Main.addHoming(homing.getLevel() - 1, posX, posY);
 			}
 		});
 	}
@@ -333,10 +361,11 @@ public class GameCore {
 				if(rock.getStatus() && Main.getEnemies().contains(rock.getCurrentEntity())) { // has target
 					rock.changePosition(rock.getCurrentEntity());// rock is going to the enemy
 					if(rock.isCollideEntity(rock.getCurrentEntity())) { // rock hit the target
+						rock.decreaseDurability();
 						rock.getCurrentEntity().setHP(rock.getCurrentEntity().getHP()-rock.getDamage()); 
 						rock.setStatus(false); // set status to no currently target
 						resetRockLater(rock, player.getPosX(), player.getPosY());  // reset the rock position after hit
-					}	
+					}
 				}
 				
 				else { // no currently target
@@ -356,6 +385,7 @@ public class GameCore {
 				if(homing.getStatus() && Main.getEnemies().contains(homing.getCurrentEntity())) {
 					homing.changePosition(homing.getCurrentEntity());
 					if(homing.isCollideEntity(homing.getCurrentEntity())) {
+						homing.decreaseDurability();
 						homing.getCurrentEntity().setHP(homing.getCurrentEntity().getHP()-homing.getDamage());
 						homing.setStatus(false);
 					}	
@@ -368,16 +398,4 @@ public class GameCore {
 			}
 		});
 	}
-	
-	/*
-	private static void resetHomingLater(BaseHoming homing, float posX, float posY) {
-		Platform.runLater(new Runnable(){
-			@Override
-			public void run() {
-				Main.resetHoming(homing ,posX, posY);
-			}
-		});
-	}*/
-	
-
 }

@@ -6,7 +6,6 @@ import javafx.scene.image.ImageView;
 public abstract class Item extends ImageView{
 	private float posX;
 	private float posY;
-	private ImageView image;
 	private int width;
 	private int height;
 	

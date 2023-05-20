@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import config.Config;
 import item.Bomb;
 import item.Item;
+import item.Potion;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -96,7 +97,7 @@ public class Main extends Application {
 	
 	public void startGame() {
 		pane.getChildren().clear();
-		StatusBar statusBar = new StatusBar(Config.PLAYER_HP, 0, EntityController.getWave());
+		StatusBar statusBar = new StatusBar(Config.PLAYER_HP, 1, 0, EntityController.getWave());
 		statusBar.relocate(0, 0);
 		pane.getChildren().add(statusBar);
 		
@@ -149,11 +150,6 @@ public class Main extends Application {
 	        		if(Math.abs(movementX) == 1) movementX *= 0.707f;
 	        		if(Math.abs(movementY) == 1) movementY *= 0.707f;
 	        	}
-//
-//	    		System.out.print(movementX);
-//	    		System.out.print(" ");
-//	    		System.out.println(movementY);
-	        	
 	        	player.setMovement(movementX, movementY);
 	        }
 	    });
@@ -206,6 +202,11 @@ public class Main extends Application {
 	
 	public static void addBomb(float posX, float posY) {
 		items.add(new Bomb(posX, posY));
+		pane.getChildren().add(items.get(items.size()-1));
+	}
+	
+	public static void addPotion(float posX, float posY) {
+		items.add(new Potion(posX, posY));
 		pane.getChildren().add(items.get(items.size()-1));
 	}
 	

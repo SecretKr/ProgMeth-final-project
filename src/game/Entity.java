@@ -7,12 +7,10 @@ import javafx.scene.image.ImageView;
 public abstract class Entity extends ImageView {
 	private float posX;
 	private float posY;
-	private ImageView image;
 	private float movementX;
 	private float movementY;
 	private boolean alive;
 	private int entityNum=0;
-	private int entityNumMax=0;
 	private int entityCounter=0;
 	private String direction;
 	private int hP;
@@ -31,7 +29,6 @@ public abstract class Entity extends ImageView {
 	}
 	
 	public void updatePos() {
-		//System.out.println("update");
 		super.relocate(posX, posY);
 	}
 	

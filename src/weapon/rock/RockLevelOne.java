@@ -2,7 +2,6 @@ package weapon.rock;
 
 import config.Config;
 import game.Asset;
-import javafx.scene.image.Image;
 
 public class RockLevelOne extends BaseRock{
 
@@ -12,6 +11,7 @@ public class RockLevelOne extends BaseRock{
 		setSpeed(Config.Rock.ROCK_ONE_SPEED);
 		setWidth(Config.Rock.ROCK_ONE_WIDTH);
 		setHeight(Config.Rock.ROCK_ONE_HEIGHT);
+		setDurability(Config.Rock.ROCK_ONE_DURABILITY);
 	}
 	
 }

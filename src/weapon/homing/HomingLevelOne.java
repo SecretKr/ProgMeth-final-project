@@ -2,7 +2,6 @@ package weapon.homing;
 
 import config.Config;
 import game.Asset;
-import javafx.scene.image.Image;
 
 public class HomingLevelOne extends BaseHoming{
 	public HomingLevelOne(float posX, float posY) {
@@ -11,5 +10,6 @@ public class HomingLevelOne extends BaseHoming{
 		setSpeed(Config.Homing.HOMING_ONE_SPEED);
 		setWidth(Config.Homing.HOMING_ONE_WIDTH);
 		setHeight(Config.Homing.HOMING_ONE_HEIGHT);
+		setDurability(Config.Homing.HOMING_ONE_DURABILITY);
 	}
 }

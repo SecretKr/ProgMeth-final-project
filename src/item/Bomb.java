@@ -10,9 +10,6 @@ public class Bomb extends Item{
 		super(new Image("assets/item/bomb.png", 30, 30, false, false) , posX, posY);
 		setWidth(Config.ITEM_WIDTH);
 		setHeight(Config.ITEM_HEIGHT);
-		//setPosX(posX);
-		//setPosY(posY);
-
 	}
 
 	public void useItem() {

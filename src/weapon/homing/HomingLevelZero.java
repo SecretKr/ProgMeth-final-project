@@ -1,8 +1,6 @@
 package weapon.homing;
 
-import config.Config;
 import game.Asset;
-import javafx.scene.image.Image;
 
 public class HomingLevelZero extends BaseHoming{
 	public HomingLevelZero(float posX, float posY) {

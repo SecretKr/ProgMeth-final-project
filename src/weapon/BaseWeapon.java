@@ -12,6 +12,7 @@ public abstract class BaseWeapon extends ImageView {
 	private float posY;
 	private int width;
 	private int height;	
+	private int durability;
 	
 	public BaseWeapon(Image image2, float posX, float posY) {
 		super(image2);
@@ -36,6 +37,10 @@ public abstract class BaseWeapon extends ImageView {
 	public abstract void changePosition(Entity entity);
 	
 	public abstract String toString();
+	
+	public void decreaseDurability() {
+		this.setDurability(this.getDurability() - 1);
+	}
 	
 	public boolean isCollideEntity(Entity entity){
 		float wLeftX = this.getLeftX();
@@ -126,6 +131,14 @@ public abstract class BaseWeapon extends ImageView {
 
 	public void setHeight(int height) {
 		this.height = height;
+	}
+
+	public int getDurability() {
+		return durability;
+	}
+
+	public void setDurability(int durability) {
+		this.durability = durability;
 	}
 	
 	

@@ -1,6 +1,5 @@
 package weapon.rock;
 
-import config.Config;
 import game.Entity;
 import javafx.scene.image.Image;
 import weapon.BaseWeapon;

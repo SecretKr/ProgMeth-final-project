@@ -20,7 +20,7 @@ public class Player extends Entity {
 		setDirection("down");
 		//setPosX((Config.SCREEN_WIDTH-Config.PLAYER_WIDTH)/2);
 		//setPosY((Config.SCREEN_HEIGHT-Config.PLAYER_HEIGHT)/2);
-		setLevel(1);
+		setLevel(0);
 		setAlive(true);
 		setHP(100);
 		setWidth(Config.PLAYER_WIDTH);
