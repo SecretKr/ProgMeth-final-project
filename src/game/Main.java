@@ -6,6 +6,7 @@ import config.Config;
 import item.Bomb;
 import item.Item;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -26,8 +27,10 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import weapon.homing.BaseHoming;
@@ -53,20 +56,31 @@ public class Main extends Application {
 		pane = new Pane();
 		VBox menu = new VBox();
 		
+		pane.setBackground(new Background(new BackgroundImage(new Image("/assets/scene/grass.png", 320, 320, false, false), null, null, null, null)));
 		Button playBt = new Button("Play");
+		playBt.setPrefSize(100, 40);
+		playBt.setFont(new Font(16));
+		//playBt.setBackground(new Background(new BackgroundImage(new Image("/assets/scene/wooden.png", 32, 32, false, false), null, null, null, null)));
+		//playBt.setGraphic(new ImageView(new Image("/assets/scene/wooden.png", 32, 32, false, false)));
 		playBt.setOnAction(e -> {
 			pane.getChildren().clear();
         	startGame(primaryStage);
 	    });
 		menu.getChildren().add(playBt);
 		Button exitBt = new Button("Quit game");
+		exitBt.setPrefSize(100, 40);
+		exitBt.setFont(new Font(16));
 		exitBt.setOnAction(e -> {
-        	return;
+			Platform.exit();
 	    });
 		menu.setPrefSize(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
 		menu.getChildren().add(exitBt);
 		menu.setAlignment(Pos.CENTER);
-		menu.setSpacing(50);
+		menu.setSpacing(30);
+		
+		Asset.music.setCycleCount(AudioClip.INDEFINITE);
+		Asset.music.setVolume(0.8);
+		Asset.music.play();
 		
 		pane.getChildren().add(menu);
 		scene = new Scene(pane, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);

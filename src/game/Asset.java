@@ -1,8 +1,9 @@
 package game;
 
+import java.io.File;
 import java.util.ArrayList;
-
 import javafx.scene.image.Image;
+import javafx.scene.media.AudioClip;
 
 class Asset {
 	public static ArrayList<Image> enemy = new ArrayList<Image>();
@@ -14,6 +15,11 @@ class Asset {
 	public static ArrayList<Image> playerUp = new ArrayList<Image>();
 	public static ArrayList<Image> playerDown = new ArrayList<Image>();
 	public static int playerFrame = 6;
+
+	public static AudioClip enemyHit;
+	public static AudioClip nextWave;
+	public static AudioClip bomb;
+	public static AudioClip music;
 	
 	public static void getAssets() {
 		// enemy
@@ -28,5 +34,10 @@ class Asset {
 			playerUp.add(new Image("assets/player/up" + Integer.toString(i) + ".png", 50, 50, false, false));
 			playerDown.add(new Image("assets/player/down" + Integer.toString(i) + ".png", 50, 50, false, false));
 		}
+		
+		enemyHit = new AudioClip("file:src/assets/sound/enemyHit.wav");
+		nextWave = new AudioClip("file:src/assets/sound/nextWave.wav");
+		bomb = new AudioClip("file:src/assets/sound/bomb.wav");
+		music = new AudioClip("file:src/assets/sound/music.wav");
 	}
 }

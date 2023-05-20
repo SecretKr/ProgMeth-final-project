@@ -61,10 +61,4 @@ public class EntityController {
 	public static void increaseWave() {
 		EntityController.wave = EntityController.getWave() + 1;
 	}
-	
-	
-	
-	
-	
-	
 }

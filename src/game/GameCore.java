@@ -38,6 +38,8 @@ public class GameCore {
 			//addRock(1, player.getPosX(),player.getPosY());
 			//addHoming(2, player.getPosX(),player.getPosY());
 			//player.setHP(101);
+			//addRock(1,20,20);
+			//player.setHP(150);
 		}
 		
 		if(player.getXP() >= player.getLevel() * player.getLevel() * 10) { // level up
@@ -53,6 +55,7 @@ public class GameCore {
 					int enemyAmount = Main.getEnemies().size();
 					EntityController.setEnemyKilled(EntityController.getEnemyKilled() + enemyAmount);
 					player.setXP(player.getXP() + enemyAmount);
+					Asset.bomb.play();
 				}
 				useItemLater(item);
 				removeItemLater(item);
@@ -86,9 +89,10 @@ public class GameCore {
 			}
 			
 			if(player.isCollideEntity(enemy)) {
-				enemy.setHP(enemy.getHP()-1); 
+				enemy.setHP(enemy.getHP()-1);
 				player.setHP(player.getHP()-enemy.getHitDamage()); // both enemy and player take damage
 				statusBar.setHp(player.getHP());
+				Asset.enemyHit.play();
 				updateStatusBar();
 			}
 			
@@ -134,6 +138,7 @@ public class GameCore {
 		
 		if(EntityController.getEnemyAmountMax() == EntityController.getEnemyKilled()) {
 			EntityController.updateWave();
+			Asset.nextWave.play();
 		}
 		
 	}
