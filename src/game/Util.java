@@ -22,20 +22,35 @@ public class Util {
 		return res;
 	}
 	
-	public static BaseWeapon randomWeapon(Player player){
-		int first = 0 + (int)(Math.random() * ((2 - 0)));
-		int n = first;
-		while( player.getWeapons().get(n).getLevel() == 3) {
-			n = n + 1;
-			if(n == first) {
-				break;
-			}
-		}
+	public static int randomWeapon(Player player){
+		ArrayList<BaseWeapon> playerWeapons = player.getWeapons();
+		int ran = 0 + (int)(Math.random() * ((playerWeapons.size() - 0)));
+		// 0 = Rock
+		// 1 = Homing
 		
-		if(n==first) {
-			return null;
+		for(int i=0; i< playerWeapons.size(); i++) {
+			
+			if(ran == 0) {
+				for(int j = 0; j < playerWeapons.size(); j++) {
+					BaseWeapon weapon = playerWeapons.get(j);
+					if(weapon instanceof BaseRock) {
+						if(weapon.getLevel()!=3) return j;
+					}
+					
+				}
+			}
+			if(ran == 1) {
+				for(int j = 0; j < playerWeapons.size(); j++) {
+					BaseWeapon weapon = playerWeapons.get(j);
+					if(weapon instanceof BaseHoming) {
+						if(weapon.getLevel()!=3) return j;
+					}
+				}
+			}
+			ran = (ran+1) % 2;
 		}
-		return player.getWeapons().get(n);
+		return -1;
+		
 	}
 	
 }

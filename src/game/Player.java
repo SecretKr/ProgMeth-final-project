@@ -6,6 +6,8 @@ import config.Config;
 import item.Item;
 import javafx.scene.image.Image;
 import weapon.BaseWeapon;
+import weapon.homing.BaseHoming;
+import weapon.rock.BaseRock;
 
 public class Player extends Entity {
 	
@@ -29,6 +31,28 @@ public class Player extends Entity {
 	
 	public int getEntityNumMax() {
 		return Asset.playerFrame;
+	}
+	
+	public int getRockIndex() {
+		int n=-1;
+		for(int i = 0; i < this.getWeapons().size(); i++) {
+			if(this.getWeapons().get(i) instanceof BaseRock) {
+				n=i;
+				return i;
+			}
+		}
+		return n;
+	}
+	
+	public int getHomingIndex() {
+		int n=-1;
+		for(int i = 0; i < this.getWeapons().size(); i++) {
+			if(this.getWeapons().get(i) instanceof BaseHoming) {
+				n=i;
+				return i;
+			}
+		}
+		return n;
 	}
 	
 	public boolean isCollideEntity(Entity enemy) {

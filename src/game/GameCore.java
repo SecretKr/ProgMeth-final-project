@@ -35,7 +35,7 @@ public class GameCore {
 		if(player.getHP() == 0) {
 			//restart
 			//player.addWeapon(new RockLevelOne());
-			//addRock(1, player.getPosX(),player.getPosY());
+			//upgradeRock((BaseRock) player.getWeapons().get(player.getRockIndex()), player.getPosX(),player.getPosY());
 			//addHoming(2, player.getPosX(),player.getPosY());
 			//player.setHP(101);
 			//addRock(1,20,20);
@@ -43,10 +43,24 @@ public class GameCore {
 		}
 		
 		if(player.getXP() >= player.getLevel() * player.getLevel() * 10) { // level up
-			//player.setLevel(player.getLevel() + 1);
+			System.out.println("lv up");
+			player.setLevel(player.getLevel() + 1);
+			int IndexWeaponToUpgrade = Util.randomWeapon(player);
+			if(IndexWeaponToUpgrade != -1) {
+				BaseWeapon weaponToUpgrade = player.getWeapons().get(IndexWeaponToUpgrade);
+				if(weaponToUpgrade instanceof BaseRock) {
+					upgradeRock((BaseRock) player.getWeapons().get(player.getRockIndex()), player.getPosX(),player.getPosY());
+				}
+				
+				else if(weaponToUpgrade instanceof BaseHoming) {
+					upgradeHoming((BaseHoming) player.getWeapons().get(player.getHomingIndex()), player.getPosX(),player.getPosY());
+				}
+				
+			}
+			
 			
 		}
-
+		
 		
 		
 		for(Item item: Main.getItems()) {
@@ -112,6 +126,7 @@ public class GameCore {
 		if(nearestEnemy != null) {
 			
 			for(BaseWeapon weapon:player.getWeapons()) {
+				if(weapon.getLevel() == 0) continue;
 				if(weapon instanceof BaseRock) {
 					attackRock((BaseRock) weapon, nearestEnemy);
 					
@@ -149,6 +164,7 @@ public class GameCore {
 			int counter = 0;
 
 			addBomb(500,500);
+			initializeWeapon();
 			
 			while (true) {
 				Thread.sleep(Config.DELAY_BETWEEN_FRAME);
@@ -171,6 +187,11 @@ public class GameCore {
 		} catch (Exception e) {
 			
 		}
+	}
+	
+	private void initializeWeapon() {
+		addRock(0, player.getPosX(), player.getPosY());
+		addHoming(0,  player.getPosX(), player.getPosY());
 	}
 	
 	private static void addBomb(float posX, float posY) {
@@ -282,6 +303,7 @@ public class GameCore {
 	}
 	
 	private void attackRock(BaseRock rock, Entity nearestEnemy) {
+		if(rock.getLevel() == 0) return;
 		if(rock.getStatus() && Main.getEnemies().contains(rock.getCurrentEntity())) { // has target
 			rock.changePosition(rock.getCurrentEntity());// rock is going to the enemy
 			if(rock.isCollideEntity(rock.getCurrentEntity())) { // rock hit the target
@@ -299,6 +321,7 @@ public class GameCore {
 	}
 	
 	private void attackHoming(BaseHoming homing, Entity nearestNextEnemy) { // just like the rock but there is no reset, so it will move continuously
+		if(homing.getLevel() == 0) return;
 		if(homing.getStatus() && Main.getEnemies().contains(homing.getCurrentEntity())) {
 			homing.changePosition(homing.getCurrentEntity());
 			if(homing.isCollideEntity(homing.getCurrentEntity())) {

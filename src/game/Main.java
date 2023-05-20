@@ -37,10 +37,12 @@ import weapon.homing.BaseHoming;
 import weapon.homing.HomingLevelOne;
 import weapon.homing.HomingLevelThree;
 import weapon.homing.HomingLevelTwo;
+import weapon.homing.HomingLevelZero;
 import weapon.rock.BaseRock;
 import weapon.rock.RockLevelOne;
 import weapon.rock.RockLevelThree;
 import weapon.rock.RockLevelTwo;
+import weapon.rock.RockLevelZero;
 
 public class Main extends Application {
 	private static ArrayList<Enemy> enemies;
@@ -197,6 +199,9 @@ public class Main extends Application {
 	}
 	
 	public static void addRock(int level, float posX, float posY) {
+		if(level == 0) {
+			player.addWeapon(new RockLevelZero(posX, posY));
+		}
 		if(level == 1) {
 			player.addWeapon(new RockLevelOne(posX, posY));
 		}
@@ -223,6 +228,9 @@ public class Main extends Application {
 	}
 	
 	public static void addHoming(int level, float posX, float posY) {
+		if(level == 0) {
+			player.addWeapon(new HomingLevelZero(posX, posY));
+		}
 		if(level == 1) {
 			player.addWeapon(new HomingLevelOne(posX, posY));
 		}
