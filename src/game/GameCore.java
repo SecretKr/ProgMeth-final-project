@@ -22,6 +22,8 @@ public class GameCore {
 
 	public void gameLoop() {
 		float speed = Config.DEFAULT_PLAYER_SPEED;
+		Enemy a = null;
+		Item b = null;
 		player.setPosX(player.getPosX() + speed*player.getMovementX());
 		player.setPosY(player.getPosY() + speed*player.getMovementY());
 		player.updatePos();
@@ -43,8 +45,10 @@ public class GameCore {
 		}
 		
 		if(player.getXP() >= player.getLevel() * player.getLevel() * 10) { // level up
+			
 			System.out.println("lv up");
 			player.setLevel(player.getLevel() + 1);
+			
 			int IndexWeaponToUpgrade = Util.randomWeapon(player);
 			if(IndexWeaponToUpgrade != -1) {
 				BaseWeapon weaponToUpgrade = player.getWeapons().get(IndexWeaponToUpgrade);
@@ -72,9 +76,12 @@ public class GameCore {
 					Asset.bomb.play();
 				}
 				useItemLater(item);
-				removeItemLater(item);
+				//removeItemLater(item);
+				b = item;
 			}
 		}
+		
+		if(b!=null) removeItemLater(b);
 		
 		speed = Config.DEFAULT_ENEMY_SPEED;
 		Enemy nearestEnemy = null;
@@ -111,27 +118,33 @@ public class GameCore {
 			}
 			
 			if(enemy.getHP() <= 0) {
-				player.setXP(player.getXP()+1);
-				EntityController.increaseEnemyKilled();
-				removeEnemyLater(enemy);
-				System.out.println(Integer.toString(EntityController.getEnemyKilled()) + "/" + Integer.toString(EntityController.getEnemyAmountMax()));
+				//player.setXP(player.getXP()+1);
+				//EntityController.increaseEnemyKilled();
+				//removeEnemyLater(enemy);
+				a = enemy;
+				//System.out.println(Integer.toString(EntityController.getEnemyKilled()) + "/" + Integer.toString(EntityController.getEnemyAmountMax()));
 			}
 			
 		
 			
 		}
+		
+		if(a!=null) {
+			player.setXP(player.getXP()+1);
+			EntityController.increaseEnemyKilled();
+			removeEnemyLater(a);
+			System.out.println(Integer.toString(EntityController.getEnemyKilled()) + "/" + Integer.toString(EntityController.getEnemyAmountMax()));
+		}
+		
 		//break;
 		//updateAllPos();
-		
-		if(nearestEnemy != null) {
 			
+		if(nearestEnemy != null) {	
 			for(BaseWeapon weapon:player.getWeapons()) {
 				if(weapon.getLevel() == 0) continue;
 				if(weapon instanceof BaseRock) {
 					attackRock((BaseRock) weapon, nearestEnemy);
-					
 				}
-				
 				else if(weapon instanceof BaseHoming) {		
 					Entity nearestNextEnemy = ((BaseHoming)weapon).getNearestNextEnemy();
 					if(((BaseHoming)weapon).getCurrentEntity() == null) {
@@ -139,9 +152,9 @@ public class GameCore {
 						((BaseHoming)weapon).setStatus(true);
 					}
 					attackHoming((BaseHoming) weapon, nearestNextEnemy);
-				}
-				
+				}	
 			}
+		}
 			/*
 			if(nearestEnemy.getHP() <= 0) {
 				player.setXP(player.getXP()+1);
@@ -149,7 +162,7 @@ public class GameCore {
 				System.out.println(Integer.toString(EntityController.getEnemyKilled()) + "/" + Integer.toString(EntityController.getEnemyAmountMax()));
 				removeEnemyLater(nearestEnemy);
 			}*/
-		}
+		 
 		
 		if(EntityController.getEnemyAmountMax() == EntityController.getEnemyKilled()) {
 			EntityController.updateWave();
@@ -170,11 +183,17 @@ public class GameCore {
 				Thread.sleep(Config.DELAY_BETWEEN_FRAME);
 				this.gameLoop();
 				if(counter%40 == 0 && EntityController.isSpawnable() ) {
+					//System.out.print("a ");
 					float randomPosX = (float) Math.floor(Math.random() * (Config.SCREEN_WIDTH - 0 + 1) + 0);
+					//System.out.print("b ");
 					float randomPosY = (float) Math.floor(Math.random() * (Config.SCREEN_HEIGHT - 0 + 1) + 0);
+					//System.out.print("c ");
 					EntityController.increaseEnemyAmount();
+					//System.out.print("d ");
 					addEnemy(randomPosX, randomPosY, 1);
+					//System.out.println("e");
 				}
+				
 				/*if(counter%500 == 0) { // add bomb randomly
 					//float randomPosX = (float) (Math.random() * (Config.SCREEN_WIDTH + 1));
 					//float randomPosY = (float) (Math.random() * (Config.SCREEN_HEIGHT + 1));
