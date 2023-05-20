@@ -303,37 +303,48 @@ public class GameCore {
 	}
 	
 	private void attackRock(BaseRock rock, Entity nearestEnemy) {
-		if(rock.getLevel() == 0) return;
-		if(rock.getStatus() && Main.getEnemies().contains(rock.getCurrentEntity())) { // has target
-			rock.changePosition(rock.getCurrentEntity());// rock is going to the enemy
-			if(rock.isCollideEntity(rock.getCurrentEntity())) { // rock hit the target
-				rock.getCurrentEntity().setHP(rock.getCurrentEntity().getHP()-rock.getDamage()); 
-				rock.setStatus(false); // set status to no currently target
-				resetRockLater(rock, player.getPosX(), player.getPosY());  // reset the rock position after hit
-			}	
-		}
 		
-		else { // no currently target
-			resetRockLater(rock, player.getPosX(), player.getPosY());
-			rock.setCurrentEntity(nearestEnemy);
-			rock.setStatus(true);
-		}
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				if(rock.getLevel() == 0) return;
+				if(rock.getStatus() && Main.getEnemies().contains(rock.getCurrentEntity())) { // has target
+					rock.changePosition(rock.getCurrentEntity());// rock is going to the enemy
+					if(rock.isCollideEntity(rock.getCurrentEntity())) { // rock hit the target
+						rock.getCurrentEntity().setHP(rock.getCurrentEntity().getHP()-rock.getDamage()); 
+						rock.setStatus(false); // set status to no currently target
+						resetRockLater(rock, player.getPosX(), player.getPosY());  // reset the rock position after hit
+					}	
+				}
+				
+				else { // no currently target
+					resetRockLater(rock, player.getPosX(), player.getPosY());
+					rock.setCurrentEntity(nearestEnemy);
+					rock.setStatus(true);
+				}
+			}
+		});
 	}
 	
 	private void attackHoming(BaseHoming homing, Entity nearestNextEnemy) { // just like the rock but there is no reset, so it will move continuously
-		if(homing.getLevel() == 0) return;
-		if(homing.getStatus() && Main.getEnemies().contains(homing.getCurrentEntity())) {
-			homing.changePosition(homing.getCurrentEntity());
-			if(homing.isCollideEntity(homing.getCurrentEntity())) {
-				homing.getCurrentEntity().setHP(homing.getCurrentEntity().getHP()-homing.getDamage());
-				homing.setStatus(false);
-			}	
-		}
-		
-		else {
-			homing.setCurrentEntity(nearestNextEnemy);
-			homing.setStatus(true);
-		}
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				if(homing.getLevel() == 0) return;
+				if(homing.getStatus() && Main.getEnemies().contains(homing.getCurrentEntity())) {
+					homing.changePosition(homing.getCurrentEntity());
+					if(homing.isCollideEntity(homing.getCurrentEntity())) {
+						homing.getCurrentEntity().setHP(homing.getCurrentEntity().getHP()-homing.getDamage());
+						homing.setStatus(false);
+					}	
+				}
+				
+				else {
+					homing.setCurrentEntity(nearestNextEnemy);
+					homing.setStatus(true);
+				}
+			}
+		});
 	}
 	
 	/*
