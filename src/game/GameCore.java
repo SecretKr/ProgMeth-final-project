@@ -185,7 +185,7 @@ public class GameCore {
 				counter += 1;
 			}
 		} catch (Exception e) {
-			
+			System.out.println(e);
 		}
 	}
 	
