@@ -190,8 +190,14 @@ public class GameCore {
 	}
 	
 	private void initializeWeapon() {
-		addRock(0, player.getPosX(), player.getPosY());
-		addHoming(0,  player.getPosX(), player.getPosY());
+		
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				addRock(0, player.getPosX(), player.getPosY());
+				addHoming(0,  player.getPosX(), player.getPosY());
+			}
+		});
 	}
 	
 	private static void addBomb(float posX, float posY) {
