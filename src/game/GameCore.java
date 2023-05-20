@@ -14,6 +14,7 @@ import weapon.rock.RockLevelOne;
 public class GameCore {
 	private Player player;
 	private StatusBar statusBar;
+	private boolean exit = false;
 	
 	public GameCore(Player player, StatusBar statusBar) {
 		this.player = player;
@@ -35,13 +36,7 @@ public class GameCore {
 			player.setEntityCounter(0);
 		}
 		if(player.getHP() == 0) {
-			//restart
-			//player.addWeapon(new RockLevelOne());
-			//upgradeRock((BaseRock) player.getWeapons().get(player.getRockIndex()), player.getPosX(),player.getPosY());
-			//addHoming(2, player.getPosX(),player.getPosY());
-			//player.setHP(101);
-			//addRock(1,20,20);
-			//player.setHP(150);
+			exit = true;
 		}
 		
 		if(player.getXP() >= player.getLevel() * player.getLevel() * 10) { // level up
@@ -167,6 +162,9 @@ public class GameCore {
 		if(EntityController.getEnemyAmountMax() == EntityController.getEnemyKilled()) {
 			EntityController.updateWave();
 			Asset.nextWave.play();
+			float randomPosX = (float) Math.floor(Math.random() * (Config.SCREEN_WIDTH - 0 + 1) + 0);
+			float randomPosY = (float) Math.floor(Math.random() * (Config.SCREEN_HEIGHT - 0 + 1) + 0);
+			addBomb(randomPosX, randomPosY);
 		}
 		
 	}
@@ -182,27 +180,16 @@ public class GameCore {
 			while (true) {
 				Thread.sleep(Config.DELAY_BETWEEN_FRAME);
 				this.gameLoop();
+				if(exit) break;
 				if(counter%40 == 0 && EntityController.isSpawnable() ) {
-					//System.out.print("a ");
 					float randomPosX = (float) Math.floor(Math.random() * (Config.SCREEN_WIDTH - 0 + 1) + 0);
-					//System.out.print("b ");
 					float randomPosY = (float) Math.floor(Math.random() * (Config.SCREEN_HEIGHT - 0 + 1) + 0);
-					//System.out.print("c ");
 					EntityController.increaseEnemyAmount();
-					//System.out.print("d ");
 					addEnemy(randomPosX, randomPosY, 1);
-					//System.out.println("e");
 				}
-				
-				/*if(counter%500 == 0) { // add bomb randomly
-					//float randomPosX = (float) (Math.random() * (Config.SCREEN_WIDTH + 1));
-					//float randomPosY = (float) (Math.random() * (Config.SCREEN_HEIGHT + 1));
-					float randomPosX = (float) Math.floor(Math.random() * (Config.SCREEN_WIDTH - 0 + 1) + 0);
-					float randomPosY = (float) Math.floor(Math.random() * (Config.SCREEN_HEIGHT - 0 + 1) + 0);
-					Main.addBomb(randomPosX, randomPosY);
-				}*/
 				counter += 1;
 			}
+			exitPageLater();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -224,6 +211,16 @@ public class GameCore {
 			@Override
 			public void run() {
 				Main.addBomb(posX, posY);
+			}
+		});
+	}
+	
+	public void exitPageLater() {
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				Main.endGame(player.getXP(), EntityController.getWave());
+				Asset.gameOver.play();
 			}
 		});
 	}

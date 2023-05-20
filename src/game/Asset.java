@@ -20,6 +20,7 @@ public class Asset {
 	public static AudioClip nextWave;
 	public static AudioClip bomb;
 	public static AudioClip music;
+	public static AudioClip gameOver;
 	
 	public static ArrayList<Image> rockImg = new ArrayList<Image>();
 	public static ArrayList<Image> homingImg = new ArrayList<Image>();
@@ -43,6 +44,7 @@ public class Asset {
 		nextWave = new AudioClip("file:src/assets/sound/nextWave.wav");
 		bomb = new AudioClip("file:src/assets/sound/bomb.wav");
 		music = new AudioClip("file:src/assets/sound/music.wav");
+		gameOver = new AudioClip("file:src/assets/sound/gameOver.wav");
 		
 		for(int i = 0;i < weaponLevel;i++) {
 			rockImg.add(new Image("assets/weapon/rock" + Integer.toString(i) + ".png", 10, 10, false, false));

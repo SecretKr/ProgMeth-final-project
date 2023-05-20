@@ -50,9 +50,11 @@ public class Main extends Application {
 	private static Pane pane;
 	private static Player player;
 	private static Scene scene;
+	private static Stage primaryStage;
 	
 	@Override
 	public void start(Stage primaryStage) {
+		this.primaryStage = primaryStage;
 		//Group root = new Group();
 		Asset.getAssets();
 		pane = new Pane();
@@ -65,8 +67,7 @@ public class Main extends Application {
 		//playBt.setBackground(new Background(new BackgroundImage(new Image("/assets/scene/wooden.png", 32, 32, false, false), null, null, null, null)));
 		//playBt.setGraphic(new ImageView(new Image("/assets/scene/wooden.png", 32, 32, false, false)));
 		playBt.setOnAction(e -> {
-			pane.getChildren().clear();
-        	startGame(primaryStage);
+        	startGame();
 	    });
 		menu.getChildren().add(playBt);
 		Button exitBt = new Button("Quit game");
@@ -93,7 +94,8 @@ public class Main extends Application {
 		primaryStage.show();
 	}
 	
-	public void startGame(Stage primaryStage) {
+	public void startGame() {
+		pane.getChildren().clear();
 		StatusBar statusBar = new StatusBar(Config.PLAYER_HP, 0, EntityController.getWave());
 		statusBar.relocate(0, 0);
 		pane.getChildren().add(statusBar);
@@ -107,6 +109,15 @@ public class Main extends Application {
 		movePlayer(scene, player);
 		GameCoreWrapper gameCoreWrapper = new GameCoreWrapper(player, statusBar);
 		gameCoreWrapper.start();
+	}
+	
+	public static void endGame(int xp, int wave) {
+		pane.getChildren().clear();
+		EndGame endGame = new EndGame(xp, wave);
+		endGame.relocate(0, 0);
+		
+		pane.setBackground(new Background(new BackgroundImage(new Image("/assets/scene/grass.png", 320, 320, false, false), null, null, null, null)));
+		pane.getChildren().add(endGame);
 	}
 	
 	private static void movePlayer(Scene scene, Player player) {
