@@ -1,12 +1,13 @@
 package weapon.rock;
 
 import config.Config;
+import game.Asset;
 import javafx.scene.image.Image;
 
 public class RockLevelZero extends BaseRock{
 
 	public RockLevelZero(float posX, float posY) {
-		super(new Image("assets/weapon/rock.png", 10, 10, false, false), posX, posY, 0);
+		super(Asset.rockImg.get(0), posX, posY, 0);
 	}
 	
 }

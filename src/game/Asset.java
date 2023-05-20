@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
 
-class Asset {
+public class Asset {
 	public static ArrayList<Image> enemy = new ArrayList<Image>();
 	public static int enemyFrame = 4;
 	
@@ -20,6 +20,10 @@ class Asset {
 	public static AudioClip nextWave;
 	public static AudioClip bomb;
 	public static AudioClip music;
+	
+	public static ArrayList<Image> rockImg = new ArrayList<Image>();
+	public static ArrayList<Image> homingImg = new ArrayList<Image>();
+	public static int weaponLevel = 4;
 	
 	public static void getAssets() {
 		// enemy
@@ -39,5 +43,10 @@ class Asset {
 		nextWave = new AudioClip("file:src/assets/sound/nextWave.wav");
 		bomb = new AudioClip("file:src/assets/sound/bomb.wav");
 		music = new AudioClip("file:src/assets/sound/music.wav");
+		
+		for(int i = 0;i < weaponLevel;i++) {
+			rockImg.add(new Image("assets/weapon/rock" + Integer.toString(i) + ".png", 10, 10, false, false));
+			homingImg.add(new Image("assets/weapon/ghost" + Integer.toString(i) + ".png", 10, 10, false, false));
+		}
 	}
 }
