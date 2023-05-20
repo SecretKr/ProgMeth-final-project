@@ -3,6 +3,7 @@ package game;
 import java.util.ArrayList;
 
 import config.Config;
+import item.Bomb;
 import item.Item;
 import javafx.application.Platform;
 import weapon.BaseWeapon;
@@ -21,8 +22,6 @@ public class GameCore {
 
 	public void gameLoop() {
 		float speed = Config.DEFAULT_PLAYER_SPEED;
-		Enemy a = null;
-		Item b = null;
 		player.setPosX(player.getPosX() + speed*player.getMovementX());
 		player.setPosY(player.getPosY() + speed*player.getMovementY());
 		player.updatePos();
@@ -41,16 +40,24 @@ public class GameCore {
 			//player.setHP(101);
 		}
 		
-		//if(player.isCollideItem(null))
+		if(player.getXP() >= player.getLevel() * player.getLevel() * 10) { // level up
+			//player.setLevel(player.getLevel() + 1);
+			
+		}
+
 		
 		
 		for(Item item: Main.getItems()) {
 			if(player.isCollideItem(item)) {
+				if(item instanceof Bomb) {
+					int enemyAmount = Main.getEnemies().size();
+					EntityController.setEnemyKilled(EntityController.getEnemyKilled() + enemyAmount);
+					player.setXP(player.getXP() + enemyAmount);
+				}
 				useItemLater(item);
-				b = item;
+				removeItemLater(item);
 			}
 		}
-		if(Main.getItems().contains(b)) removeItemLater(b);
 		
 		speed = Config.DEFAULT_ENEMY_SPEED;
 		Enemy nearestEnemy = null;
@@ -79,8 +86,6 @@ public class GameCore {
 			}
 			
 			if(player.isCollideEntity(enemy)) {
-				//System.out.println("HIT!!");
-				//System.out.println(player.getHP());
 				enemy.setHP(enemy.getHP()-1); 
 				player.setHP(player.getHP()-enemy.getHitDamage()); // both enemy and player take damage
 				statusBar.setHp(player.getHP());
@@ -88,19 +93,15 @@ public class GameCore {
 			}
 			
 			if(enemy.getHP() <= 0) {
-				//System.out.println("HIT!!");
-				//Main.getEnemies().remove(enemy);
-				//Main.getEnemies().clear();
 				player.setXP(player.getXP()+1);
 				EntityController.increaseEnemyKilled();
-				a = enemy; // store which enemy has to be remove to remove after list iteration
+				removeEnemyLater(enemy);
 				System.out.println(Integer.toString(EntityController.getEnemyKilled()) + "/" + Integer.toString(EntityController.getEnemyAmountMax()));
 			}
 			
 		
 			
 		}
-		if(Main.getEnemies().contains(a)) removeEnemyLater(a); // remove
 		//break;
 		//updateAllPos();
 		
@@ -109,6 +110,7 @@ public class GameCore {
 			for(BaseWeapon weapon:player.getWeapons()) {
 				if(weapon instanceof BaseRock) {
 					attackRock((BaseRock) weapon, nearestEnemy);
+					
 				}
 				
 				else if(weapon instanceof BaseHoming) {		
@@ -119,10 +121,15 @@ public class GameCore {
 					}
 					attackHoming((BaseHoming) weapon, nearestNextEnemy);
 				}
+				
 			}
+			/*
 			if(nearestEnemy.getHP() <= 0) {
-			removeEnemyLater(nearestEnemy);
-		}
+				player.setXP(player.getXP()+1);
+				EntityController.increaseEnemyKilled();
+				System.out.println(Integer.toString(EntityController.getEnemyKilled()) + "/" + Integer.toString(EntityController.getEnemyAmountMax()));
+				removeEnemyLater(nearestEnemy);
+			}*/
 		}
 		
 		if(EntityController.getEnemyAmountMax() == EntityController.getEnemyKilled()) {
@@ -136,7 +143,7 @@ public class GameCore {
 		try {
 			int counter = 0;
 
-			//Main.addBomb(500,500);
+			addBomb(500,500);
 			
 			while (true) {
 				Thread.sleep(Config.DELAY_BETWEEN_FRAME);
@@ -159,6 +166,15 @@ public class GameCore {
 		} catch (Exception e) {
 			
 		}
+	}
+	
+	private static void addBomb(float posX, float posY) {
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				Main.addBomb(posX, posY);
+			}
+		});
 	}
 	
 	public void updateStatusBar() {
@@ -222,6 +238,16 @@ public class GameCore {
 		});
 	}
 	
+	private static void upgradeRock(BaseRock rock, float posX, float posY) {
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				Main.removeRock(rock);
+				Main.addRock(rock.getLevel() + 1, posX, posY);
+			}
+		});
+	}
+	
 	private static void resetRockLater(BaseRock rock, float posX, float posY) {
 		Platform.runLater(new Runnable(){
 			@Override
@@ -236,6 +262,16 @@ public class GameCore {
 			@Override
 			public void run() {
 				Main.addHoming(level, posX, posY);
+			}
+		});
+	}
+	
+	private static void upgradeHoming(BaseHoming homing, float posX, float posY) {
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				Main.removeHoming(homing);
+				Main.addHoming(homing.getLevel() + 1, posX, posY);
 			}
 		});
 	}

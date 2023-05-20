@@ -38,6 +38,10 @@ public class BaseRock extends BaseWeapon{
 		
 	}
 	
+	public String toString() {
+		return "Rock lv." + this.getLevel();
+	}
+	
 	public void changePositionTo(float posX, float posY) {
 		this.relocate(posX, posY);
 		this.setPosX(posX);

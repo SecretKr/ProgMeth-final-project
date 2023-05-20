@@ -11,12 +11,14 @@ public class Player extends Entity {
 	
 	private ArrayList<BaseWeapon> weapons;
 	private int xP;
+	private int level;
 	
 	public Player(float posX, float posY, int hP) {
 		super(Asset.player.get(0), posX, posY, hP);
 		setDirection("down");
 		//setPosX((Config.SCREEN_WIDTH-Config.PLAYER_WIDTH)/2);
 		//setPosY((Config.SCREEN_HEIGHT-Config.PLAYER_HEIGHT)/2);
+		setLevel(1);
 		setAlive(true);
 		setHP(100);
 		setWidth(Config.PLAYER_WIDTH);
@@ -146,6 +148,14 @@ public class Player extends Entity {
 
 	public void setXP(int xP) {
 		this.xP = xP;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 	
 	

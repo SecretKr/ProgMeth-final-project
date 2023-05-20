@@ -178,11 +178,8 @@ public class Main extends Application {
 	}
 	
 	public static void addBomb(float posX, float posY) {
-		System.out.print(".");
 		items.add(new Bomb(posX, posY));
-		System.out.print(".");
 		pane.getChildren().add(items.get(items.size()-1));
-		System.out.print("a");
 	}
 	
 	public static void addRock(int level, float posX, float posY) {
@@ -196,6 +193,11 @@ public class Main extends Application {
 			player.addWeapon(new RockLevelThree(posX, posY));
 		}
 		pane.getChildren().add(player.getWeapons().get(player.getWeapons().size()-1));
+	}
+	
+	public static void removeRock(BaseRock rock) {
+		player.removeWeapon(rock);
+		pane.getChildren().remove(rock);
 	}
 	
 	public static void resetRock(BaseRock rock, float posX, float posY) {
@@ -217,6 +219,11 @@ public class Main extends Application {
 			player.addWeapon(new HomingLevelThree(posX, posY));
 		}
 		pane.getChildren().add(player.getWeapons().get(player.getWeapons().size()-1));
+	}
+	
+	public static void removeHoming(BaseHoming homing) {
+		player.removeWeapon(homing);
+		pane.getChildren().remove(homing);
 	}
 	
 	public static void resetHoming(BaseHoming homing, float posX, float posY) {

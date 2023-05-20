@@ -38,6 +38,10 @@ public class BaseHoming extends BaseWeapon{
 		
 	}
 	
+	public String toString() {
+		return "Homing lv." + this.getLevel();
+	}
+	
 	public void changePositionTo(float posX, float posY) {
 		this.relocate(posX, posY);
 		this.setPosX(posX);

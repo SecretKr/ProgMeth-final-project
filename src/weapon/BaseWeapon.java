@@ -35,6 +35,8 @@ public abstract class BaseWeapon extends ImageView {
 	
 	public abstract void changePosition(Entity entity);
 	
+	public abstract String toString();
+	
 	public boolean isCollideEntity(Entity entity){
 		float wLeftX = this.getLeftX();
 		float eLeftX = entity.getLeftX();
@@ -67,6 +69,8 @@ public abstract class BaseWeapon extends ImageView {
 		
 		return false;
 	}
+	
+	
 	
 	public int getDamage() {
 		return damage;
