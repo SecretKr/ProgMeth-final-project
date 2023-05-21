@@ -1,8 +1,12 @@
 package game;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class Asset {
 	public static ArrayList<Image> enemy = new ArrayList<Image>();
@@ -41,13 +45,20 @@ public class Asset {
 			playerDown.add(new Image("assets/player/down" + Integer.toString(i) + ".png", 50, 50, false, false));
 		}
 		
-		enemyHit = new AudioClip("file:src/assets/sound/enemyHit.wav");
-		nextWave = new AudioClip("file:src/assets/sound/nextWave.wav");
-		bomb = new AudioClip("file:src/assets/sound/bomb.wav");
-		music = new AudioClip("file:src/assets/sound/music.wav");
-		gameOver = new AudioClip("file:src/assets/sound/gameOver.wav");
-		hit = new AudioClip("file:src/assets/sound/hit.wav");
-		heal = new AudioClip("file:src/assets/sound/heal.wav");
+//		enemyHit = new AudioClip("file:src/assets/sound/enemyHit.wav");
+//		nextWave = new AudioClip("file:src/assets/sound/nextWave.wav");
+//		bomb = new AudioClip("file:src/assets/sound/bomb.wav");
+//		music = new AudioClip("file:src/assets/sound/music.wav");
+//		gameOver = new AudioClip("file:src/assets/sound/gameOver.wav");
+//		hit = new AudioClip("file:src/assets/sound/hit.wav");
+//		heal = new AudioClip("file:src/assets/sound/heal.wav");
+		enemyHit = new AudioClip(Paths.get("res/enemyHit.wav").toUri().toString());
+		nextWave = new AudioClip(Paths.get("res/nextWave.wav").toUri().toString());
+		bomb = new AudioClip(Paths.get("res/bomb.wav").toUri().toString());
+		music = new AudioClip(Paths.get("res/music.wav").toUri().toString());
+		gameOver = new AudioClip(Paths.get("res/gameOver.wav").toUri().toString());
+		hit = new AudioClip(Paths.get("res/hit.wav").toUri().toString());
+		heal = new AudioClip(Paths.get("res/heal.wav").toUri().toString());
 		
 		for(int i = 0;i < weaponLevel;i++) {
 			rockImg.add(new Image("assets/weapon/rock" + Integer.toString(i) + ".png", 10, 10, false, false));
