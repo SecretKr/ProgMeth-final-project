@@ -51,12 +51,9 @@ public class Main extends Application {
 	private static Pane pane;
 	private static Player player;
 	private static Scene scene;
-	private static Stage primaryStage;
 	
 	@Override
 	public void start(Stage primaryStage) {
-		this.primaryStage = primaryStage;
-		//Group root = new Group();
 		Asset.getAssets();
 		pane = new Pane();
 		VBox menu = new VBox();
@@ -102,7 +99,7 @@ public class Main extends Application {
 		Text ruleTitle = new Text("Rules");
 		ruleTitle.setFont(new Font(40));
 		
-		Text ruleText = new Text("- Use WASD to move around\n- Hitting the slime will reduce 10 HP\n- Weapons will be selected randomly each wave\n- Items will randomly drop each wave\n- Bomb item -> kill all enemys\n- Potion item -> restore full HP");
+		Text ruleText = new Text("- Use WASD to move around\n- Hitting the slime will reduce 10 HP\n- Weapons will be selected randomly each level\n- Items will randomly drop each wave\n- Bomb item -> kill all enemys\n- Potion item -> restore full HP");
 		ruleText.setFont(new Font(20));
 		
 		Button playBt = new Button("Continue");
