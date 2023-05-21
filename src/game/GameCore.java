@@ -247,22 +247,22 @@ public class GameCore {
 		});
 	}
 	
-	public void removeItemLater(Item b) {
+	public void removeItemLater(Item item) {
 		Platform.runLater(new Runnable(){
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				Main.removeItem(b);
+				Main.removeItem(item);
 			}
 		});
 	}
 	
-	public void removeEnemyLater(Enemy a) {
+	public void removeEnemyLater(Enemy enemy) {
 		Platform.runLater(new Runnable(){
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				Main.removeEnemy(a);
+				Main.removeEnemy(enemy);
 			}
 		});
 	}
@@ -277,11 +277,11 @@ public class GameCore {
 		});
 	}
 
-	private static void addEnemy(float posX, float posY,int hP) {
+	private static void addEnemy(float posX, float posY,int hp) {
 		Platform.runLater(new Runnable(){
 			@Override
 			public void run() {
-				Main.addEnemy(posX, posY, hP);
+				Main.addEnemy(posX, posY, hp);
 			}
 		});
 	}

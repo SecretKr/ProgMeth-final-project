@@ -10,8 +10,8 @@ public abstract class Item extends ImageView{
 	private int height;
 	
 	
-	public Item(Image image2,float posX, float posY) {
-		super(image2);
+	public Item(Image image,float posX, float posY) {
+		super(image);
 		this.setPosX(posX);
 		this.setPosY(posY);
 		super.relocate(posX, posY);

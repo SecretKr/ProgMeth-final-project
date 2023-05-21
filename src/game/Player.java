@@ -12,14 +12,12 @@ import weapon.rock.BaseRock;
 public class Player extends Entity {
 	
 	private ArrayList<BaseWeapon> weapons;
-	private int xP;
+	private int xp;
 	private int level;
 	
-	public Player(float posX, float posY, int hP) {
-		super(Asset.player.get(0), posX, posY, hP);
+	public Player(float posX, float posY, int hp) {
+		super(Asset.player.get(0), posX, posY, hp);
 		setDirection("down");
-		//setPosX((Config.SCREEN_WIDTH-Config.PLAYER_WIDTH)/2);
-		//setPosY((Config.SCREEN_HEIGHT-Config.PLAYER_HEIGHT)/2);
 		setLevel(0);
 		setAlive(true);
 		setHP(100);
@@ -167,11 +165,11 @@ public class Player extends Entity {
 	}
 
 	public int getXP() {
-		return xP;
+		return xp;
 	}
 
 	public void setXP(int xP) {
-		this.xP = xP;
+		this.xp = xP;
 	}
 
 	public int getLevel() {
@@ -182,13 +180,4 @@ public class Player extends Entity {
 		this.level = level;
 	}
 	
-	
-	/*
-	 * player.setEntityCounter(player.getEntityCounter()+1);
-		if(player.getEntityCounter() >= 10) {
-			player.setEntityNum(player.getEntityNum()+1);
-			player.setEntityCounter(0);
-		}
-	 * 
-	 */
 }

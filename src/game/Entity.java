@@ -9,22 +9,22 @@ public abstract class Entity extends ImageView {
 	private float posY;
 	private float movementX;
 	private float movementY;
-	private boolean alive;
+	private boolean isAlive;
 	private int entityNum=0;
 	private int entityCounter=0;
 	private String direction;
-	private int hP;
+	private int hp;
 	private int width;
 	private int height;
 	private int hitDamage;
 	
 	
 	
-	public Entity(Image image2,float posX, float posY, int hP) {
-		super(image2);
+	public Entity(Image image,float posX, float posY, int hp) {
+		super(image);
 		this.setPosX(posX);
 		this.setPosY(posY);
-		this.setHP(hP);
+		this.setHP(hp);
 		super.relocate(posX, posY);
 	}
 	
@@ -33,11 +33,11 @@ public abstract class Entity extends ImageView {
 	}
 	
 	public boolean getAlive() {
-		return alive;
+		return isAlive;
 	}
 	
 	public void setAlive(boolean alive) {
-		this.alive = alive;
+		this.isAlive = alive;
 	}
 	
 	public float getLeftX() {
@@ -125,12 +125,12 @@ public abstract class Entity extends ImageView {
 	}
 
 	public int getHP() {
-		return hP;
+		return hp;
 	}
 
 	public void setHP(int hP) {
-		if(hP <= 0) this.hP = 0;
-		else this.hP = hP;
+		if(hP <= 0) this.hp = 0;
+		else this.hp = hP;
 	}
 
 	public int getWidth() {

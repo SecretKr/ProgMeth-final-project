@@ -11,10 +11,8 @@ public class BaseHoming extends BaseWeapon{
 	private boolean status;
 	private Entity currentEntity;
 	
-	public BaseHoming(Image image2,float posX, float posY, int level) {
-		super(image2, posX, posY);
-		//setPosX((Config.SCREEN_WIDTH-30)/2);
-		//setPosY((Config.SCREEN_HEIGHT-30)/2);
+	public BaseHoming(Image image,float posX, float posY, int level) {
+		super(image, posX, posY);
 		this.setStatus(false);
 		this.setCurrentEntity(null);
 		this.setLevel(level);

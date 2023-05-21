@@ -14,8 +14,8 @@ public abstract class BaseWeapon extends ImageView {
 	private int height;	
 	private int durability;
 	
-	public BaseWeapon(Image image2, float posX, float posY) {
-		super(image2);
+	public BaseWeapon(Image image, float posX, float posY) {
+		super(image);
 		this.setPosX(posX);
 		this.setPosY(posY);
 		super.relocate(posX, posY);

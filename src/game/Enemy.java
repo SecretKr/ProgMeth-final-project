@@ -3,10 +3,10 @@ package game;
 import config.Config;
 
 public class Enemy extends Entity {
-	public Enemy(float posX, float posY, int hP) {
-		super(Asset.enemy.get(0), posX, posY, hP);
+	public Enemy(float posX, float posY, int hp) {
+		super(Asset.enemy.get(0), posX, posY, hp);
 		setAlive(true);
-		setHP(hP);
+		setHP(hp);
 		setWidth(Config.ENEMY_WIDTH);
 		setHeight(Config.ENEMY_HEIGHT);
 		setHitDamage(10);

@@ -206,8 +206,8 @@ public class Main extends Application {
 	    });
 	}
 
-	public static void addEnemy(float posX, float posY, int hP){
-		enemies.add(new Enemy(posX, posY, hP));
+	public static void addEnemy(float posX, float posY, int hp){
+		enemies.add(new Enemy(posX, posY, hp));
 		pane.getChildren().add(enemies.get(enemies.size()-1));
 	}
 	

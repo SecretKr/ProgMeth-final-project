@@ -14,5 +14,4 @@ public class Potion extends Item{
 	public void useItem() {
 		
 	}
-	
 }
