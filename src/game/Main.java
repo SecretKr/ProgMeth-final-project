@@ -61,14 +61,15 @@ public class Main extends Application {
 		pane = new Pane();
 		VBox menu = new VBox();
 		
-		pane.setBackground(new Background(new BackgroundImage(new Image("/assets/scene/grass.png", 320, 320, false, false), null, null, null, null)));
+		pane.setBackground(new Background(new BackgroundImage(new Image("/assets/scene/grass2.png", 320, 320, false, false), null, null, null, null)));
+		
+		ImageView title = new ImageView(new Image("/assets/scene/WongSurvivor.png", 350, 50, false, false));
+		menu.getChildren().add(title);
 		Button playBt = new Button("Play");
 		playBt.setPrefSize(100, 40);
 		playBt.setFont(new Font(16));
-		//playBt.setBackground(new Background(new BackgroundImage(new Image("/assets/scene/wooden.png", 32, 32, false, false), null, null, null, null)));
-		//playBt.setGraphic(new ImageView(new Image("/assets/scene/wooden.png", 32, 32, false, false)));
 		playBt.setOnAction(e -> {
-        	startGame();
+        	rule();
 	    });
 		menu.getChildren().add(playBt);
 		Button exitBt = new Button("Quit game");
@@ -83,16 +84,41 @@ public class Main extends Application {
 		menu.setSpacing(30);
 		
 		Asset.music.setCycleCount(AudioClip.INDEFINITE);
-		Asset.music.setVolume(0.8);
+		Asset.music.setVolume(0.4);
 		Asset.music.play();
 		
 		pane.getChildren().add(menu);
 		scene = new Scene(pane, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
 		
-		primaryStage.setTitle("Game");
+		primaryStage.setTitle("Wong Survivor");
 		primaryStage.setScene(scene);
 		primaryStage.setResizable(false);
 		primaryStage.show();
+	}
+	
+	public void rule() {
+		pane.getChildren().clear();
+		VBox rule = new VBox();
+		Text ruleTitle = new Text("Rules");
+		ruleTitle.setFont(new Font(40));
+		
+		Text ruleText = new Text("- Use WASD to move around\n- Hitting the slime will reduce 10 HP\n- Weapons will be selected randomly each wave\n- Items will randomly drop each wave\n- Bomb item -> kill all enemys\n- Potion item -> restore full HP");
+		ruleText.setFont(new Font(20));
+		
+		Button playBt = new Button("Continue");
+		playBt.setPrefSize(100, 40);
+		playBt.setFont(new Font(16));
+		playBt.setOnAction(e -> {
+        	startGame();
+	    });
+		rule.setPrefSize(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
+		rule.getChildren().add(ruleTitle);
+		rule.getChildren().add(ruleText);
+		rule.getChildren().add(playBt);
+		rule.setAlignment(Pos.CENTER);
+		rule.setSpacing(30);
+		
+		pane.getChildren().add(rule);
 	}
 	
 	public void startGame() {

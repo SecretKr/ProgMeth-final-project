@@ -68,6 +68,7 @@ public class GameCore {
 				
 				if(item instanceof Potion) {
 					player.setHP(Config.PLAYER_HP);
+					Asset.heal.play();
 				}
 				tempItem = item;
 				useItemLater(tempItem);
@@ -110,6 +111,7 @@ public class GameCore {
 			}
 			
 			if(enemy.getHP() <= 0) {
+				Asset.hit.play();
 				tempEnemy = enemy;
 			}
 		}

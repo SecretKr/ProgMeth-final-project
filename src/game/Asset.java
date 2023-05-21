@@ -20,6 +20,8 @@ public class Asset {
 	public static AudioClip bomb;
 	public static AudioClip music;
 	public static AudioClip gameOver;
+	public static AudioClip hit;
+	public static AudioClip heal;
 	
 	public static ArrayList<Image> rockImg = new ArrayList<Image>();
 	public static ArrayList<Image> homingImg = new ArrayList<Image>();
@@ -44,6 +46,8 @@ public class Asset {
 		bomb = new AudioClip("file:src/assets/sound/bomb.wav");
 		music = new AudioClip("file:src/assets/sound/music.wav");
 		gameOver = new AudioClip("file:src/assets/sound/gameOver.wav");
+		hit = new AudioClip("file:src/assets/sound/hit.wav");
+		heal = new AudioClip("file:src/assets/sound/heal.wav");
 		
 		for(int i = 0;i < weaponLevel;i++) {
 			rockImg.add(new Image("assets/weapon/rock" + Integer.toString(i) + ".png", 10, 10, false, false));
