@@ -99,7 +99,7 @@ public class Main extends Application {
 		Text ruleTitle = new Text("Rules");
 		ruleTitle.setFont(new Font(40));
 		
-		Text ruleText = new Text("- Use WASD to move around\n- Hitting the slime will reduce 10 HP\n- Weapons will be selected randomly each level\n- Items will randomly drop each wave\n- Bomb item -> kill all enemys\n- Potion item -> restore full HP");
+		Text ruleText = new Text("- Use WASD to move around\n- Hitting the slime will reduce 10 HP\n- Weapons will be selected randomly when leveling up\n- Items will randomly drop each wave\n- Bomb item -> kill all enemys\n- Potion item -> restore full HP");
 		ruleText.setFont(new Font(20));
 		
 		Button playBt = new Button("Continue");
